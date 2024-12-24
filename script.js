@@ -11,24 +11,97 @@ let currentPos = {
     x: 0,
     y: 0,
 }
+let pieceSide = 0
+let objPieces = [
+    [
+        [[1, 1],
+        [1, 1]]
+    ],
 
-let pieces = [
-    [[1, 1], [1, 1]],       // o
-/*     [[1, 1, 0], [0, 1, 1]], // z
-    [[0, 1, 1], [1, 1, 0]], // s
-    [[1, 1, 1, 1]],         // I
-    [[1, 1, 1], [1, 0, 0]], // L
-    [[1, 1, 1], [0, 0, 1]], // J
-    [[0, 1, 0], [1, 1, 1]], // T */
+    [
+        [[1, 1, 0],
+        [0, 1, 1]],
+
+        [[0, 1],
+        [1, 1],
+        [1, 0]]
+    ],
+
+    [
+        [[0, 1, 1],
+        [1, 1, 0]],
+
+        [[1, 0],
+        [1, 1],
+        [0, 1]]
+    ],
+
+    [
+        [[1, 1, 1, 1]],
+
+        [[1],
+        [1],
+        [1],
+        [1]]
+    ],
+
+    [
+        [[1, 1, 1],
+        [1, 0, 0]],
+
+        [[1, 1],
+        [0, 1],
+        [0, 1]],
+
+        [[0, 0, 1],
+        [1, 1, 1]],
+
+        [[1, 0],
+        [1, 0],
+        [1, 1]]
+    ],
+
+    [
+        [[1, 1, 1],
+        [0, 0, 1]],
+
+        [[0, 1],
+        [0, 1],
+        [1, 1]],
+
+        [[1, 0, 0],
+        [1, 1, 1]],
+
+        [[1, 1],
+        [1, 0],
+        [1, 0]]
+    ],
+
+    [
+        [[0, 1, 0],
+        [1, 1, 1]],
+
+        [[1, 0],
+        [1, 1],
+        [1, 0]],
+
+        [[1, 1, 1],
+        [0, 1, 0]],
+
+        [[0, 1],
+        [1, 1],
+        [0, 1]]
+    ]
 ]
+
 let colorPiece = {
     1: "red",       // Square
-/*     2: "blue",      // Z
+    2: "blue",      // Z
     3: "green",     // S
     4: "yellow",    // |
     5: "orange",    // L
     6: "purple",    // !L
-    7: "cyan"       // T */
+    7: "cyan"       // T
 }
 function animate(timestamp) {
     if (lastTime === 0) {
@@ -37,7 +110,7 @@ function animate(timestamp) {
     const deltaTime = timestamp - lastTime
 
     frameCount++
-    if (deltaTime >= 200) {
+    if (deltaTime >= 1000) {
         fps = frameCount
         frameCount = 0
         lastTime = timestamp
@@ -96,6 +169,7 @@ function clearLines() {
             i++
         }
     }
+    // score(100)
 }
 
 function fixGridData() {
@@ -111,6 +185,7 @@ function fixGridData() {
     }
     clearLines()
     dropPiece()
+    pieceSide = 0
 }
 
 function mDown() {
@@ -122,8 +197,8 @@ function mDown() {
 }
 
 function dropPiece() {
-    currentPieceIndex = Math.floor(Math.random() * pieces.length)
-    currentPiece = pieces[currentPieceIndex]
+    currentPieceIndex = Math.floor(Math.random() * 7)
+    currentPiece = objPieces[currentPieceIndex][0]    
     currentPos = {
         x: 0,
         y: Math.floor(col / 2) - Math.floor(currentPiece[0].length / 2)
@@ -136,13 +211,12 @@ function dropPiece() {
 }
 
 function isValidPos(xMove, yMove) {
-    if (!currentPiece) return false
     for (let i = 0; i < currentPiece.length; i++) {
         for (let j = 0; j < currentPiece[i].length; j++) {
             if (currentPiece[i][j] === 0) continue
             let xRow = currentPos.x + i + xMove
             let yCol = currentPos.y + j + yMove
-            if (xRow >= row || yCol < 0 || yCol >= col ||
+            if (xRow < 0 || xRow >= row || yCol < 0 || yCol >= col ||
                 grid[xRow][yCol].value === 1) return false
         }
     }
@@ -188,8 +262,22 @@ document.addEventListener('keydown', (e) => {
         case 'ArrowDown':
             if (isValidPos(1, 0)) {
                 currentPos.x++
+                //score(1)
             }
             break
+        case ' ':
+            for (; isValidPos(1, 0);) {
+                mDown()
+                //score(20)
+            }
+            break
+        case 'ArrowUp':
+            const nextSide = (pieceSide + 1) % objPieces[currentPieceIndex].length            
+            if (isValidPos(0, 0)) {
+                pieceSide = nextSide
+                currentPiece = objPieces[currentPieceIndex][pieceSide]
+            }
+            break;
     }
 })
 
