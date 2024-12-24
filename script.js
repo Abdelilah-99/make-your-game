@@ -14,21 +14,21 @@ let currentPos = {
 
 let pieces = [
     [[1, 1], [1, 1]],       // o
-    [[1, 1, 0], [0, 1, 1]], // z
+/*     [[1, 1, 0], [0, 1, 1]], // z
     [[0, 1, 1], [1, 1, 0]], // s
     [[1, 1, 1, 1]],         // I
     [[1, 1, 1], [1, 0, 0]], // L
     [[1, 1, 1], [0, 0, 1]], // J
-    [[0, 1, 0], [1, 1, 1]], // T
+    [[0, 1, 0], [1, 1, 1]], // T */
 ]
 let colorPiece = {
     1: "red",       // Square
-    2: "blue",      // Z
+/*     2: "blue",      // Z
     3: "green",     // S
     4: "yellow",    // |
     5: "orange",    // L
     6: "purple",    // !L
-    7: "cyan"       // T
+    7: "cyan"       // T */
 }
 function animate(timestamp) {
     if (lastTime === 0) {
@@ -37,7 +37,7 @@ function animate(timestamp) {
     const deltaTime = timestamp - lastTime
 
     frameCount++
-    if (deltaTime >= 1000) {
+    if (deltaTime >= 200) {
         fps = frameCount
         frameCount = 0
         lastTime = timestamp
@@ -53,7 +53,7 @@ let currentPieceIndex = 0
 
 function drawPiece() {
     const cells = document.querySelectorAll('.divCell')
-    
+
     for (let i = 0; i < cells.length; i++) {
         cells[i].style.backgroundColor = ''
     }
@@ -81,6 +81,23 @@ function drawPiece() {
 }
 
 
+function clearLines() {
+    let c = 0
+    for (let i = row - 1; i >= 0; i--) {
+        c = 0
+        for (let j = 0; j < col; j++) {
+            if (grid[i][j].value === 1) {
+                c++
+            }
+            if (c === col - 1) {
+                grid.splice(i, 1)
+                grid.unshift(Array(col).fill(0))
+                
+            }
+        }
+    }
+}
+
 function fixGridData() {
     for (let i = 0; i < currentPiece.length; i++) {
         for (let j = 0; j < currentPiece[i].length; j++) {
@@ -92,6 +109,7 @@ function fixGridData() {
             }
         }
     }
+    clearLines()
     dropPiece()
 }
 
@@ -124,7 +142,7 @@ function isValidPos(xMove, yMove) {
             if (currentPiece[i][j] === 0) continue
             let xRow = currentPos.x + i + xMove
             let yCol = currentPos.y + j + yMove
-            if (xRow >= row || yCol < 0 || yCol >= col || 
+            if (xRow >= row || yCol < 0 || yCol >= col ||
                 grid[xRow][yCol].value === 1) return false
         }
     }
