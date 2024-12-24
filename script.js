@@ -125,7 +125,7 @@ function isValidPos(xMove, yMove) {
             let xRow = currentPos.x + i + xMove
             let yCol = currentPos.y + j + yMove
             if (xRow >= row || yCol < 0 || yCol >= col || 
-                (grid[xRow][yCol] && grid[xRow][yCol].value === 1)) return false
+                grid[xRow][yCol].value === 1) return false
         }
     }
     return true
