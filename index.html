@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Your Game: Tetris</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="fps-counter" id="fps-counter">FPS: 0</div>
+    <div id="spawn">
+        <div id="spawnGrid">
+            <!-- add cells of grid -->
+        </div>
+    </div>
+    <div id="game">
+        <div id="gameGrid">
+            <!-- add cells of grid -->
+        </div>
+    </div>
+
+    <div id="overlay"></div>
+    <div class="animate-zoom-in" id="backgroundMenu">
+        <div id="content">
+            <div id="logo">
+                <img src="tetris.png" alt="">
+            </div>
+            <div id="play">
+                <button onclick="startGame()">Play</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

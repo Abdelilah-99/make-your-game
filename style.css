@@ -1,0 +1,144 @@
+body {
+    margin: 25px;
+    overflow: hidden;
+    background-image: url(bg.jpg);
+    background-size: cover;
+    color: #d4d4d4;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    font-size: 20px;
+}
+
+.fps-counter {
+    background-color: #000;
+    padding: 7px;
+    border-radius: 7px;
+    position: fixed;
+}
+
+#game {
+    height: 80%;
+    aspect-ratio: 1 / 2;
+    margin: auto;
+    background-color: #222;
+    box-shadow: 1px;
+    box-shadow: 0px 2px 5px #b7b7b7;
+}
+
+#gameGrid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(20, 1fr);
+}
+
+#spawn {
+    height: 8%;
+    aspect-ratio: 5 / 1;
+    margin: auto;
+}
+
+#spawnGrid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.grid {
+    aspect-ratio: 1 / 1;
+    margin: 1px;
+}
+
+.border {
+    border: 1px solid #353434;
+}
+
+/* start popUp menu */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background-color: #000;
+    z-index: 90;
+}
+
+#backgroundMenu {
+    position: fixed;
+    top: 15%;
+    left: 25%;
+    width: 50%;
+    background-color: #272727;
+    border: 7px solid #c4c4c4;
+    border-radius: 50px;
+    z-index: 100;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#logo,
+#play {
+    width: 80%;
+}
+
+#logo img {
+    width: 100%;
+}
+
+#play button {
+    width: 100%;
+    margin: 0px 0px 20px auto;
+    padding: 10px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 10px;
+    background-color: #41A954;
+    border: 0;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    #backgroundMenu {
+        width: 80%;
+        left: 10%;
+    }
+}
+
+.animate-zoom-in {
+    animation: animatezoomin 0.6s
+}
+
+@keyframes animatezoomin {
+    from {
+        transform: scale(0)
+    }
+
+    to {
+        transform: scale(1)
+    }
+}
+
+.none{
+    display: none;
+}
+
+.animate-zoom-out {
+    animation: animatezoomout 0.6s
+}
+
+@keyframes animatezoomout {
+    from {
+        transform: scale(1)
+    }
+
+    to {
+        transform: scale(0)
+    }
+}
