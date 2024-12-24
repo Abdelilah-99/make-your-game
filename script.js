@@ -89,11 +89,11 @@ function clearLines() {
             if (grid[i][j].value === 1) {
                 c++
             }
-            if (c === col - 1) {
-                grid.splice(i, 1)
-                grid.unshift(Array(col).fill(0))
-                
-            }
+        }
+        if (c === col) {
+            grid.splice(i, 1)
+            grid.unshift(Array(col).fill(0))
+            i++
         }
     }
 }
