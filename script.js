@@ -153,7 +153,6 @@ function drawPiece() {
     }
 }
 
-
 function clearLines() {
     let c = 0
     for (let i = row - 1; i >= 0; i--) {
@@ -272,10 +271,13 @@ document.addEventListener('keydown', (e) => {
             }
             break
         case 'ArrowUp':
-            const nextSide = (pieceSide + 1) % objPieces[currentPieceIndex].length            
+            const nextSide = (pieceSide + 1) % objPieces[currentPieceIndex].length
+            currentPiece = objPieces[currentPieceIndex][nextSide]           
             if (isValidPos(0, 0)) {
+                console.log(currentPiece);
                 pieceSide = nextSide
-                currentPiece = objPieces[currentPieceIndex][pieceSide]
+            }else{
+                /* khassni nzzid logic ta3 ila wssl l coin */
             }
             break;
     }
