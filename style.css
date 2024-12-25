@@ -1,58 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    margin: 25px;
-    overflow: hidden;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
     background-image: url(bg.jpg);
     background-size: cover;
-    color: #d4d4d4;
-    font-family: Arial, sans-serif;
-    height: 100vh;
-    font-size: 20px;
+    background-position: center;
+    color: white;
+    padding: 20px;
 }
 
 .fps-counter {
-    background-color: #000;
-    padding: 7px;
-    border-radius: 7px;
-    position: fixed;
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 10px 15px;
+    border-radius: 10px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 10;
 }
 
 #game {
-    height: 80%;
-    aspect-ratio: 1 / 2;
-    margin: auto;
-    background-color: #222;
-    box-shadow: 1px;
-    box-shadow: 0px 2px 5px #b7b7b7;
+    height: 85vh;
+    gap: 10px;
+    aspect-ratio: 1/2;
+    background-color: rgba(0, 0, 0, 0.85);
+    box-shadow: 0 4px 15px rgba(34, 34, 34, 0.9);
+    border-radius: 10px;
+    padding: 10px;
 }
 
 #gameGrid {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(20, 1fr);
-}
-
-#spawn {
-    height: 8%;
-    aspect-ratio: 5 / 1;
-    margin: auto;
-}
-
-#spawnGrid {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    height: 100%;
+    gap: 1px;
 }
 
 .grid {
-    aspect-ratio: 1 / 1;
-    margin: 1px;
+    aspect-ratio: 1/1;
+    border-radius: 2px;
 }
 
 .border {
     border: 1px solid #353434;
+    background-color: rgba(53, 52, 52, 0.3);
 }
 
-/* start popUp menu */
+.dashboard {
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    backdrop-filter: blur(5px);
+    min-width: 200px;
+}
+
+.dashboard div {
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Menu Styles */
 #overlay {
     position: fixed;
     top: 0;
@@ -115,6 +139,15 @@ body {
     animation: animatezoomin 0.6s
 }
 
+
+.none {
+    display: none;
+}
+
+.animate-zoom-out {
+    animation: animatezoomout 0.6s
+}
+
 @keyframes animatezoomin {
     from {
         transform: scale(0)
@@ -123,14 +156,6 @@ body {
     to {
         transform: scale(1)
     }
-}
-
-.none{
-    display: none;
-}
-
-.animate-zoom-out {
-    animation: animatezoomout 0.6s
 }
 
 @keyframes animatezoomout {
