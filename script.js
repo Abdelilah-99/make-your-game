@@ -230,6 +230,40 @@ function isValidPos(xMove, yMove) {
     return true
 }
 
+function conflictBetweenPiece() {
+    const shifts = [[0, -1],[0, 1],[-1, 0],[1, 0]]
+    for (let i = 0; i < shifts.length; i++) {
+        if (isValidPos(shifts[i][0], shifts[i][1])) {
+            currentPos.x += shifts[i][0]
+            currentPos.y += shifts[i][1]
+            return
+        }
+    }
+    currentPiece = original
+}
+
+function rotateInBorder() {
+    let xShift = 0;
+    let yShift = 0;
+
+    for (let i = 0; i < currentPiece.length; i++) {
+        for (let j = 0; j < currentPiece[i].length; j++) {
+            let xRow = currentPos.x + i
+            let yCol = currentPos.y + j
+            if (xRow >= row) {
+                xShift = Math.max(xShift, xRow - row + 1)
+            } else if (yCol >= col) {
+                yShift = Math.max(yShift, yCol - col + 1)
+            } else if (grid[xRow][yCol].value === 1) {
+                conflictBetweenPiece()
+                return
+            }
+        }
+    }
+    currentPos.x -= xShift;
+    currentPos.y -= yShift;
+}
+
 function createGrid() {
     gameGrid.innerHTML = ''
     for (let i = 0; i < row; i++) {
@@ -273,16 +307,20 @@ document.addEventListener('keydown', (e) => {
             }
             score(20)
             break
-        case 'ArrowUp':
-            const nextSide = (pieceSide + 1) % objPieces[currentPieceIndex].length
-            currentPiece = objPieces[currentPieceIndex][nextSide]           
-            if (isValidPos(0, 0)) {
-                console.log(currentPiece);
-                pieceSide = nextSide
-            }else{
-                /* khassni nzzid logic ta3 ila wssl l coin */
-            }
-            break;
+            case 'ArrowUp':
+                const nextSide = (pieceSide + 1) % objPieces[currentPieceIndex].length
+                original = currentPiece
+                currentPiece = objPieces[currentPieceIndex][nextSide]
+                if (isValidPos(0, 0)) {
+                    //console.log(currentPiece);
+    
+                    pieceSide = nextSide
+                } else {
+                    //currentPiece = objPieces[currentPieceIndex][0]
+                    rotateInBorder()
+                    pieceSide = nextSide
+                }
+                break;
     }
 })
 
