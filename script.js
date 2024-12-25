@@ -6,6 +6,7 @@ let fps = 0
 let grid = []
 let row = 20
 let col = 10
+let corrent_score = 0
 let currentPiece = null
 let currentPos = {
     x: 0,
@@ -165,10 +166,17 @@ function clearLines() {
         if (c === col) {
             grid.splice(i, 1)
             grid.unshift(Array(col).fill(0))
+            score(100)
             i++
         }
     }
-    // score(100)
+}
+
+function score(add){
+    let scoree = document.getElementById("score")
+    console.log(add)
+    corrent_score += add
+    scoree.innerHTML = corrent_score.toString()
 }
 
 function fixGridData() {
@@ -239,11 +247,6 @@ function createGrid() {
         divs += `<div class="grid border divCell"></div>`
     }
     document.getElementById("gameGrid").innerHTML = divs
-    /*     divs = ""
-    for (let i = -20; i < 0; i++) {
-        divs += `<div class="grid" id="square${i}"></div>`
-    }
-    document.getElementById("spawnGrid").innerHTML = divs; */
 }
 
 document.addEventListener('keydown', (e) => {
@@ -261,14 +264,14 @@ document.addEventListener('keydown', (e) => {
         case 'ArrowDown':
             if (isValidPos(1, 0)) {
                 currentPos.x++
-                //score(1)
+                score(1)
             }
             break
         case ' ':
             for (; isValidPos(1, 0);) {
                 mDown()
-                //score(20)
             }
+            score(20)
             break
         case 'ArrowUp':
             const nextSide = (pieceSide + 1) % objPieces[currentPieceIndex].length
