@@ -324,14 +324,21 @@ function rotateInBorder() {
             } else if (yCol >= col) {
                 yShift = yCol - col + 1
                 console.log(objPieces[currentPieceIndex][pieceSide]);
-                
+
                 for (let i = 8; i >= objPieces[currentPieceIndex][pieceSide].length; i--) {
-                    console.log(`${i}-test`);
                     if (grid[xRow][i].value === 1) {
+                        console.log(`${i}-test`);
+
                         currentPiece === objPieces[currentPieceIndex][0]
                         yShift = 0
                     }
                 }
+            } else if (grid[xRow][yCol].value === 1) {
+                if (currentPieceIndex === 3) {
+                    currentPos.x--
+                }
+                conflictBetweenPiece()
+                console.log("test |");
             }
         }
     }
@@ -422,7 +429,7 @@ play()
 requestAnimationFrame(animate)
 
 
-function pausee(){
+function pausee() {
     let pause_btn = document.getElementById("Pause")
     pause_btn.style.display = "none"
     let continue_btn = document.getElementById("continue")
@@ -430,11 +437,11 @@ function pausee(){
     pause = 1
 }
 
-function continuee(){
+function continuee() {
     let pause_btn = document.getElementById("Pause")
     let continue_btn = document.getElementById("continue")
     continue_btn.style.display = "none"
     pause_btn.style.display = "block"
-    pause= 0
+    pause = 0
     requestAnimationFrame(animate)
 }
