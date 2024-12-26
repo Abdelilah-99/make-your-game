@@ -9,7 +9,8 @@ let col = 10
 let corrent_score = 0
 let currentPiece = null
 let lifes = 3
-let animationid = 0
+let pause = 0
+let leftTime = 180
 let currentPos = {
     x: 0,
     y: 0,
@@ -122,7 +123,7 @@ function animate(timestamp) {
     }
 
     drawPiece()
-    if (animationid == 0) {
+    if (pause == 0) {
         requestAnimationFrame(animate)
     }
 }
@@ -163,7 +164,7 @@ function resume() {
     reply.style.display = "none";
     let game_over = document.getElementById('game_over')
     game_over.style.display = "none";
-    animationid = 0
+    pause = 0
     requestAnimationFrame(animate)
 }
 
@@ -223,15 +224,17 @@ function dropPiece() {
         y: Math.floor(col / 2) - Math.floor(currentPiece[0].length / 2)
     }
     if (!isValidPos(0, 0)) {
-
-        if (lifes > 1) {
-            replay_game()
-        } else {
-            gameOver()
-        }
-
-        createGrid()
+        what_is_next()
     }
+}
+
+function what_is_next() {
+    if (lifes >= 1) {
+        replay_game()
+    } else {
+        gameOver()
+    }
+    createGrid()
 }
 
 function gameOver() {
@@ -243,7 +246,10 @@ function gameOver() {
     scoree.innerHTML = "Score: 0"
     let gameOver = document.getElementById('game_over')
     gameOver.style.display = "flex";
-    animationid = 1
+    let left_Time = document.getElementById('leftTime')
+    left_Time.innerHTML = "left time: 3:00"
+    leftTime = 180
+    pause = 1
 }
 
 function replay_game() {
@@ -252,8 +258,28 @@ function replay_game() {
     lifeshtml.innerHTML = `Life's: ${lifes}/3`
     let reply = document.getElementById('reply')
     reply.style.display = "flex";
-    animationid = 1
+    let left_Time = document.getElementById('leftTime')
+    left_Time.innerHTML = "left time: 3:00"
+    leftTime = 180
+    pause = 1
 }
+
+function timehandler() {
+    let left_time = document.getElementById('leftTime')
+    setInterval(() => {
+        if (pause == 0){
+
+            leftTime--
+            if (leftTime >= 0) {
+                left_time.innerHTML = `left Time = ${Math.floor(leftTime / 60)}:${Math.floor(leftTime % 60)}`
+            }
+            else {
+                what_is_next()
+            }
+        }
+    }, 1000)
+}
+timehandler()
 
 function isValidPos(xMove, yMove) {
     for (let i = 0; i < currentPiece.length; i++) {
