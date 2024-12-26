@@ -188,7 +188,7 @@ function clearLines() {
 function score(add) {
     let scoree = document.getElementById("score")
     corrent_score += add
-    scoree.innerHTML = 'Score: '+corrent_score.toString()
+    scoree.innerHTML = 'Score: ' + corrent_score.toString()
 }
 
 function fixGridData() {
@@ -262,7 +262,13 @@ function isValidPos(xMove, yMove) {
             let xRow = currentPos.x + i + xMove
             let yCol = currentPos.y + j + yMove
             if (xRow < 0 || xRow >= row || yCol < 0 || yCol >= col ||
-                grid[xRow][yCol].value === 1) return false
+                grid[xRow][yCol].value === 1) {
+                /* console.log(xRow, yCol);
+                console.log("------"); */
+                
+                return false
+            }
+
         }
     }
     return true
@@ -283,23 +289,36 @@ function conflictBetweenPiece() {
 function rotateInBorder() {
     let xShift = 0;
     let yShift = 0;
-
+    let oshift = 0
     for (let i = 0; i < currentPiece.length; i++) {
         for (let j = 0; j < currentPiece[i].length; j++) {
             let xRow = currentPos.x + i
             let yCol = currentPos.y + j
             if (xRow >= row) {
-                xShift = Math.max(xShift, xRow - row + 1)
+                xShift = xRow - row + 1
             } else if (yCol >= col) {
-                yShift = Math.max(yShift, yCol - col + 1)
-            } else if (grid[xRow][yCol].value === 1) {
-                conflictBetweenPiece()
-                return
+                //console.log(xRow, yCol, yShift);
+
+                // grid[xRow][yCol].value === 0
+                yShift = yCol - col + 1
+                oshift = yShift
+                for (;yShift > 0;)
+                {
+                    console.log("te", yShift)
+                    if (yCol - yShift < 10 && grid[xRow][yCol - yShift].value === 1) {
+                        console.log("test")
+                        return
+                    }
+                    yShift--
+                }
+                console.log(yShift)
+                
             }
         }
     }
-    currentPos.x -= xShift;
-    currentPos.y -= yShift;
+    currentPos.x -= xShift
+    currentPos.y -= oshift
+    conflictBetweenPiece()
 }
 
 function createGrid() {
