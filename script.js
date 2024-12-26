@@ -267,7 +267,7 @@ function replay_game() {
 function timehandler() {
     let left_time = document.getElementById('leftTime')
     setInterval(() => {
-        if (pause == 0){
+        if (pause == 0) {
 
             leftTime--
             if (leftTime >= 0) {
@@ -323,12 +323,13 @@ function rotateInBorder() {
                 xShift = xRow - row + 1
             } else if (yCol >= col) {
                 yShift = yCol - col + 1
-                if (currentPiece === objPieces[currentPieceIndex][0] || currentPiece === objPieces[currentPieceIndex][1]) {
-                    for (let i = 8; i >= 4; i--) {
-                        if (grid[xRow][i].value === 1) {
-                            currentPiece === objPieces[currentPieceIndex][0]
-                            yShift = 0
-                        }
+                console.log(objPieces[currentPieceIndex][pieceSide]);
+                
+                for (let i = 8; i >= objPieces[currentPieceIndex][pieceSide].length; i--) {
+                    console.log(`${i}-test`);
+                    if (grid[xRow][i].value === 1) {
+                        currentPiece === objPieces[currentPieceIndex][0]
+                        yShift = 0
                     }
                 }
             }
