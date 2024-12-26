@@ -197,3 +197,18 @@ body {
 .game_over{
     background-color: red;
 }
+
+.green{
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: green;
+    color: #ffffff;
+}
+
+.green:hover{
+    background-color: rgb(0, 255, 0);
+}

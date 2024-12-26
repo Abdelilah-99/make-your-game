@@ -9,7 +9,7 @@ let col = 10
 let corrent_score = 0
 let currentPiece = null
 let lifes = 3
-let pause = 0
+let pause = 1
 let leftTime = 180
 let currentPos = {
     x: 0,
@@ -408,6 +408,8 @@ function play() {
 }
 
 async function startGame() {
+    pause = 0
+    requestAnimationFrame(animate)
     document.getElementById('backgroundMenu').classList.remove('animate-zoom-in')
     document.getElementById('backgroundMenu').classList.add('animate-zoom-out')
     setTimeout(() => {
@@ -418,3 +420,21 @@ async function startGame() {
 
 play()
 requestAnimationFrame(animate)
+
+
+function pausee(){
+    let pause_btn = document.getElementById("Pause")
+    pause_btn.style.display = "none"
+    let continue_btn = document.getElementById("continue")
+    continue_btn.style.display = "block"
+    pause = 1
+}
+
+function continuee(){
+    let pause_btn = document.getElementById("Pause")
+    let continue_btn = document.getElementById("continue")
+    continue_btn.style.display = "none"
+    pause_btn.style.display = "block"
+    pause= 0
+    requestAnimationFrame(animate)
+}
