@@ -303,11 +303,14 @@ function rotateInBorder() {
                 if (currentPiece === objPieces[currentPieceIndex][0] || currentPiece === objPieces[currentPieceIndex][1]) {
                     console.log("testtd", col);
                     console.log("grid", xRow, yCol- yShift, );
-                    
-                    if (grid[xRow][yCol - yShift - 2].value === 1) {
-                        console.log("test")
-                        currentPiece === objPieces[currentPieceIndex][0]
-                        yShift = 0
+                    for (let i = 3; i > 1; i--) {
+                        console.log(i);
+                        
+                        if (grid[xRow][yCol - yShift - i].value === 1) {
+                            console.log("test")
+                            currentPiece === objPieces[currentPieceIndex][0]
+                            yShift = 0
+                        }
                     }
                 }
                 console.log(yShift)
