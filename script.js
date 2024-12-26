@@ -16,28 +16,28 @@ let currentPos = {
 }
 let pieceSide = 0
 let objPieces = [
-    [
-        [[1, 1],
-        [1, 1]]
-    ],
-
-    [
-        [[1, 1, 0],
-        [0, 1, 1]],
-
-        [[0, 1],
-        [1, 1],
-        [1, 0]]
-    ],
-
-    [
-        [[0, 1, 1],
-        [1, 1, 0]],
-
-        [[1, 0],
-        [1, 1],
-        [0, 1]]
-    ],
+    /*     [
+            [[1, 1],
+            [1, 1]]
+        ],
+    
+        [
+            [[1, 1, 0],
+            [0, 1, 1]],
+    
+            [[0, 1],
+            [1, 1],
+            [1, 0]]
+        ],
+    
+        [
+            [[0, 1, 1],
+            [1, 1, 0]],
+    
+            [[1, 0],
+            [1, 1],
+            [0, 1]]
+        ], */
 
     [
         [[1, 1, 1, 1]],
@@ -48,53 +48,53 @@ let objPieces = [
         [1]]
     ],
 
-    [
-        [[1, 1, 1],
-        [1, 0, 0]],
-
-        [[1, 1],
-        [0, 1],
-        [0, 1]],
-
-        [[0, 0, 1],
-        [1, 1, 1]],
-
-        [[1, 0],
-        [1, 0],
-        [1, 1]]
-    ],
-
-    [
-        [[1, 1, 1],
-        [0, 0, 1]],
-
-        [[0, 1],
-        [0, 1],
-        [1, 1]],
-
-        [[1, 0, 0],
-        [1, 1, 1]],
-
-        [[1, 1],
-        [1, 0],
-        [1, 0]]
-    ],
-
-    [
-        [[0, 1, 0],
-        [1, 1, 1]],
-
-        [[1, 0],
-        [1, 1],
-        [1, 0]],
-
-        [[1, 1, 1],
-        [0, 1, 0]],
-
-        [[0, 1],
-        [1, 1],
-        [0, 1]]
-    ]
+    /*     [
+            [[1, 1, 1],
+            [1, 0, 0]],
+    
+            [[1, 1],
+            [0, 1],
+            [0, 1]],
+    
+            [[0, 0, 1],
+            [1, 1, 1]],
+    
+            [[1, 0],
+            [1, 0],
+            [1, 1]]
+        ],
+    
+        [
+            [[1, 1, 1],
+            [0, 0, 1]],
+    
+            [[0, 1],
+            [0, 1],
+            [1, 1]],
+    
+            [[1, 0, 0],
+            [1, 1, 1]],
+    
+            [[1, 1],
+            [1, 0],
+            [1, 0]]
+        ],
+    
+        [
+            [[0, 1, 0],
+            [1, 1, 1]],
+    
+            [[1, 0],
+            [1, 1],
+            [1, 0]],
+    
+            [[1, 1, 1],
+            [0, 1, 0]],
+    
+            [[0, 1],
+            [1, 1],
+            [0, 1]]
+        ] */
 ]
 
 let colorPiece = {
@@ -216,7 +216,7 @@ function mDown() {
 }
 
 function dropPiece() {
-    currentPieceIndex = Math.floor(Math.random() * 7)
+    currentPieceIndex = Math.floor(Math.random() * 1)
     currentPiece = objPieces[currentPieceIndex][0]
     currentPos = {
         x: 0,
@@ -302,15 +302,11 @@ function rotateInBorder() {
                 yShift = yCol - col + 1
                 if (currentPiece === objPieces[currentPieceIndex][0] || currentPiece === objPieces[currentPieceIndex][1]) {
                     console.log("testtd", col);
-                    console.log("grid", xRow, yCol- yShift, );
-                    for (let i = 3; i > 1; i--) {
-                        console.log(i);
-                        
-                        if (grid[xRow][yCol - yShift - i].value === 1) {
-                            console.log("test")
-                            currentPiece === objPieces[currentPieceIndex][0]
-                            yShift = 0
-                        }
+                    console.log("grid", xRow, yCol - yShift,);
+                    if (grid[xRow][8].value === 1) {
+                        console.log("test")
+                        currentPiece === objPieces[currentPieceIndex][0]
+                        yShift = 0
                     }
                 }
                 console.log(yShift)
