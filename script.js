@@ -265,7 +265,7 @@ function isValidPos(xMove, yMove) {
                 grid[xRow][yCol].value === 1) {
                 /* console.log(xRow, yCol);
                 console.log("------"); */
-                
+
                 return false
             }
 
@@ -289,7 +289,6 @@ function conflictBetweenPiece() {
 function rotateInBorder() {
     let xShift = 0;
     let yShift = 0;
-    let oshift = 0
     for (let i = 0; i < currentPiece.length; i++) {
         for (let j = 0; j < currentPiece[i].length; j++) {
             let xRow = currentPos.x + i
@@ -301,23 +300,23 @@ function rotateInBorder() {
 
                 // grid[xRow][yCol].value === 0
                 yShift = yCol - col + 1
-                oshift = yShift
-                for (;yShift > 0;)
-                {
-                    console.log("te", yShift)
-                    if (yCol - yShift < 10 && grid[xRow][yCol - yShift].value === 1) {
+                if (currentPiece === objPieces[currentPieceIndex][0] || currentPiece === objPieces[currentPieceIndex][1]) {
+                    console.log("testtd", col);
+                    console.log("grid", xRow, yCol- yShift, );
+                    
+                    if (grid[xRow][yCol - yShift - 2].value === 1) {
                         console.log("test")
-                        return
+                        currentPiece === objPieces[currentPieceIndex][0]
+                        yShift = 0
                     }
-                    yShift--
                 }
                 console.log(yShift)
-                
+
             }
         }
     }
     currentPos.x -= xShift
-    currentPos.y -= oshift
+    currentPos.y -= yShift
     conflictBetweenPiece()
 }
 
