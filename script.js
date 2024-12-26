@@ -8,6 +8,8 @@ let row = 20
 let col = 10
 let corrent_score = 0
 let currentPiece = null
+let lifes = 3
+let animationid = 0
 let currentPos = {
     x: 0,
     y: 0,
@@ -120,7 +122,9 @@ function animate(timestamp) {
     }
 
     drawPiece()
-    requestAnimationFrame(animate)
+    if (animationid == 0) {
+        requestAnimationFrame(animate)
+    }
 }
 
 let currentPieceIndex = 0
@@ -154,6 +158,15 @@ function drawPiece() {
     }
 }
 
+function resume() {
+    let reply = document.getElementById('reply')
+    reply.style.display = "none";
+    let game_over = document.getElementById('game_over')
+    game_over.style.display = "none";
+    animationid = 0
+    requestAnimationFrame(animate)
+}
+
 function clearLines() {
     let c = 0
     for (let i = row - 1; i >= 0; i--) {
@@ -172,11 +185,10 @@ function clearLines() {
     }
 }
 
-function score(add){
+function score(add) {
     let scoree = document.getElementById("score")
-    console.log(add)
     corrent_score += add
-    scoree.innerHTML = corrent_score.toString()
+    scoree.innerHTML = 'Score: '+corrent_score.toString()
 }
 
 function fixGridData() {
@@ -205,16 +217,42 @@ function mDown() {
 
 function dropPiece() {
     currentPieceIndex = Math.floor(Math.random() * 7)
-    currentPiece = objPieces[currentPieceIndex][0]    
+    currentPiece = objPieces[currentPieceIndex][0]
     currentPos = {
         x: 0,
         y: Math.floor(col / 2) - Math.floor(currentPiece[0].length / 2)
     }
-
     if (!isValidPos(0, 0)) {
-        alert("Game Over")
-        play()
+
+        if (lifes > 1) {
+            replay_game()
+        } else {
+            gameOver()
+        }
+
+        createGrid()
     }
+}
+
+function gameOver() {
+    lifes = 3
+    score = 0
+    let lifeshtml = document.getElementById('Lifes')
+    lifeshtml.innerHTML = "Life's: 3/3"
+    let scoree = document.getElementById("score")
+    scoree.innerHTML = "Score: 0"
+    let gameOver = document.getElementById('game_over')
+    gameOver.style.display = "flex";
+    animationid = 1
+}
+
+function replay_game() {
+    lifes--
+    let lifeshtml = document.getElementById('Lifes')
+    lifeshtml.innerHTML = `Life's: ${lifes}/3`
+    let reply = document.getElementById('reply')
+    reply.style.display = "flex";
+    animationid = 1
 }
 
 function isValidPos(xMove, yMove) {
@@ -231,7 +269,7 @@ function isValidPos(xMove, yMove) {
 }
 
 function conflictBetweenPiece() {
-    const shifts = [[0, -1],[0, 1],[-1, 0],[1, 0]]
+    const shifts = [[0, -1], [0, 1], [-1, 0], [1, 0]]
     for (let i = 0; i < shifts.length; i++) {
         if (isValidPos(shifts[i][0], shifts[i][1])) {
             currentPos.x += shifts[i][0]
@@ -302,25 +340,27 @@ document.addEventListener('keydown', (e) => {
             }
             break
         case ' ':
+            let x = 0
             for (; isValidPos(1, 0);) {
                 mDown()
+                x++
             }
-            score(20)
+            score(x)
             break
-            case 'ArrowUp':
-                const nextSide = (pieceSide + 1) % objPieces[currentPieceIndex].length
-                original = currentPiece
-                currentPiece = objPieces[currentPieceIndex][nextSide]
-                if (isValidPos(0, 0)) {
-                    //console.log(currentPiece);
-    
-                    pieceSide = nextSide
-                } else {
-                    //currentPiece = objPieces[currentPieceIndex][0]
-                    rotateInBorder()
-                    pieceSide = nextSide
-                }
-                break;
+        case 'ArrowUp':
+            const nextSide = (pieceSide + 1) % objPieces[currentPieceIndex].length
+            original = currentPiece
+            currentPiece = objPieces[currentPieceIndex][nextSide]
+            if (isValidPos(0, 0)) {
+                //console.log(currentPiece);
+
+                pieceSide = nextSide
+            } else {
+                //currentPiece = objPieces[currentPieceIndex][0]
+                rotateInBorder()
+                pieceSide = nextSide
+            }
+            break;
     }
 })
 
