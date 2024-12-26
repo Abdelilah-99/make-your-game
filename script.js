@@ -296,23 +296,15 @@ function rotateInBorder() {
             if (xRow >= row) {
                 xShift = xRow - row + 1
             } else if (yCol >= col) {
-                //console.log(xRow, yCol, yShift);
-
-                // grid[xRow][yCol].value === 0
                 yShift = yCol - col + 1
                 if (currentPiece === objPieces[currentPieceIndex][0] || currentPiece === objPieces[currentPieceIndex][1]) {
-                    console.log("testtd", col);
-                    console.log("grid", xRow, yCol - yShift,);
-                    for (let i = 8; i >= 0; i--) {
+                    for (let i = 8; i >= 4; i--) {
                         if (grid[xRow][i].value === 1) {
-                            console.log("test")
                             currentPiece === objPieces[currentPieceIndex][0]
                             yShift = 0
                         }
                     }
                 }
-                console.log(yShift)
-
             }
         }
     }
