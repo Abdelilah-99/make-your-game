@@ -405,6 +405,12 @@ document.addEventListener('keydown', (e) => {
                 pieceSide = nextSide
             }
             break;
+        case "p":
+            pausee();
+            break
+        case "c":
+            continuee();
+            break;
     }
 })
 
