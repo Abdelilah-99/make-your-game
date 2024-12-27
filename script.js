@@ -318,6 +318,7 @@ function conflictBetweenPiece() {
 function rotateInBorder() {
     let xShift = 0;
     let yShift = 0;
+    let f = false
     for (let i = 0; i < currentPiece.length; i++) {
         for (let j = 0; j < currentPiece[i].length; j++) {
             let xRow = currentPos.x + i
@@ -335,12 +336,25 @@ function rotateInBorder() {
             } else if (grid[xRow][yCol].value === 1) {
                 if (currentPieceIndex === 3) {
                     if (pieceSide === 0) {
-                        xShift = xRow - currentPos.x
+                        f = true
+                        xShift = xRow - currentPos.x + 1
+                        for (let i = 0; i <= 4; i++) {
+                            //console.log(grid[i][yCol].value, `${i}`);
+                            if (grid[currentPos.x - i][yCol].value === 1) {
+                                
+                                currentPiece === objPieces[currentPieceIndex][0]
+                                xShift = 0
+                            }
+                        }
+                        //console.log(xShift, xRow, currentPos.x);
                     }
                 }
             }
         }
+        if (f === true) break
     }
+    //console.log("||xShift", xShift);
+    
     currentPos.x -= xShift
     currentPos.y -= yShift
     conflictBetweenPiece()
