@@ -230,7 +230,7 @@ function dropPiece() {
 }
 
 function what_is_next() {
-    if (lifes >= 1) {
+    if (lifes > 1) {
         replay_game()
     } else {
         gameOver()
@@ -243,6 +243,7 @@ function what_is_next() {
 
 function gameOver() {
     lifes = 3
+    document.getElementById("finallScore").innerHTML = "your fainall score was = " + corrent_score
     corrent_score = 0
     let lifeshtml = document.getElementById('Lifes')
     lifeshtml.innerHTML = "Life's: 3/3"
