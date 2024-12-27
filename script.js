@@ -346,18 +346,18 @@ function rotateInBorder() {
                         yShift = yCol - currentPos.y
                         if (yShift === 3) yShift = 1
                         else if (yShift === 2) yShift = 2
-                        else if (yShift === 1) yShift = 3
-                        for (let i = currentPos.y; i >= 0 ; i--) {
-                            if (grid[xRow][i].value === 1) {
+                        else if (yShift === 1) yShift = 3                        
+                        for (let i = currentPos.y; i > 0 ; i--) {
+                            if (grid[xRow][i].value === 1 || currentPos.y < 3) {
                                 currentPiece === objPieces[currentPieceIndex][0]
                                 yShift = 0
-                            }
+                            }                            
                         }
                     }
                 }
             }
         }
-        if (f === true) break
+        /* if (f === true) break */
     }
 
     currentPos.x -= xShift
