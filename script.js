@@ -205,7 +205,6 @@ function fixGridData() {
     }
     clearLines()
     dropPiece()
-    pieceSide = 0
 }
 
 function mDown() {
@@ -320,25 +319,21 @@ function rotateInBorder() {
             let xRow = currentPos.x + i
             let yCol = currentPos.y + j
             if (xRow >= row) {
-                xShift = xRow - row + 1
+                xShift = xRow - row
             } else if (yCol >= col) {
-                yShift = yCol - col + 1
-                console.log(objPieces[currentPieceIndex][pieceSide]);
-
-                for (let i = 8; i >= objPieces[currentPieceIndex][pieceSide].length; i--) {
+                yShift = yCol - col
+                for (let i = 8; i > objPieces[currentPieceIndex][pieceSide].length + 1; i--) {
                     if (grid[xRow][i].value === 1) {
-                        console.log(`${i}-test`);
-
                         currentPiece === objPieces[currentPieceIndex][0]
                         yShift = 0
                     }
                 }
             } else if (grid[xRow][yCol].value === 1) {
                 if (currentPieceIndex === 3) {
-                    currentPos.x--
+                    if (pieceSide === 0) {
+                        xShift = xRow - currentPos.x
+                    }
                 }
-                conflictBetweenPiece()
-                console.log("test |");
             }
         }
     }
