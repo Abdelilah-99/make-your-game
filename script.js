@@ -291,13 +291,7 @@ function isValidPos(xMove, yMove) {
             let xRow = currentPos.x + i + xMove
             let yCol = currentPos.y + j + yMove
             if (xRow < 0 || xRow >= row || yCol < 0 || yCol >= col ||
-                grid[xRow][yCol].value === 1) {
-                /* console.log(xRow, yCol);
-                console.log("------"); */
-
-                return false
-            }
-
+                grid[xRow][yCol].value === 1) return false
         }
     }
     return true
@@ -338,14 +332,10 @@ function rotateInBorder() {
                     if (pieceSide === 0) {
                         f = true
                         xShift = xRow - currentPos.x
-                        console.log("test");
-
-                        console.log(xShift);
                         if (xShift === 3) xShift = 1
                         else if (xShift === 2) xShift = 2
                         else if (xShift === 1) xShift = 3
                         for (let i = 0; i <= 4 && xShift != 1; i++) {
-                            console.log(grid[currentPos.x - i][yCol].value, `${i}`);
                             if (grid[currentPos.x - i][yCol].value === 1) {
                                 currentPiece === objPieces[currentPieceIndex][0]
                                 xShift = 0
@@ -354,16 +344,10 @@ function rotateInBorder() {
                     } else if (pieceSide === 1) {
                         f = true
                         yShift = yCol - currentPos.y
-                        console.log("1test");
-
-                        console.log(yShift, yCol, currentPos.y);
                         if (yShift === 3) yShift = 1
                         else if (yShift === 2) yShift = 2
                         else if (yShift === 1) yShift = 3
-                        console.log(yShift);
-                        
                         for (let i = currentPos.y; i >= 0 ; i--) {
-                            console.log(grid[xRow][i].value, `${i}`);
                             if (grid[xRow][i].value === 1) {
                                 currentPiece === objPieces[currentPieceIndex][0]
                                 yShift = 0
@@ -431,11 +415,8 @@ document.addEventListener('keydown', (e) => {
             original = currentPiece
             currentPiece = objPieces[currentPieceIndex][nextSide]
             if (isValidPos(0, 0)) {
-                //console.log(currentPiece);
-
                 pieceSide = nextSide
             } else {
-                //currentPiece = objPieces[currentPieceIndex][0]
                 rotateInBorder()
                 pieceSide = nextSide
             }
