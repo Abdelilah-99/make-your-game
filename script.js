@@ -164,6 +164,7 @@ function resume() {
     reply.style.display = "none";
     let game_over = document.getElementById('game_over')
     game_over.style.display = "none";
+    dropPiece()
     pause = 0
     requestAnimationFrame(animate)
 }
@@ -224,6 +225,9 @@ function dropPiece() {
     }
     if (!isValidPos(0, 0)) {
         what_is_next()
+        currentPieceIndex = 0
+        currentPiece = 0
+        currentPos = 0
     }
 }
 
