@@ -18,29 +18,29 @@ let currentPos = {
 }
 let pieceSide = 0
 let objPieces = [
-        [
-            [[1, 1],
-            [1, 1]]
-        ],
-    
-        [
-            [[1, 1, 0],
-            [0, 1, 1]],
-    
-            [[0, 1],
-            [1, 1],
-            [1, 0]]
-        ],
-    
-        [
-            [[0, 1, 1],
-            [1, 1, 0]],
-    
-            [[1, 0],
-            [1, 1],
-            [0, 1]]
-        ],
-    
+    [
+        [[1, 1],
+        [1, 1]]
+    ],
+
+    [
+        [[1, 1, 0],
+        [0, 1, 1]],
+
+        [[0, 1],
+        [1, 1],
+        [1, 0]]
+    ],
+
+    [
+        [[0, 1, 1],
+        [1, 1, 0]],
+
+        [[1, 0],
+        [1, 1],
+        [0, 1]]
+    ],
+
     [
         [[1, 1, 1, 1]],
 
@@ -258,7 +258,7 @@ function gameOver() {
     left_Time.innerHTML = "left time: 3:00"
     leftTime = 180
     document.removeEventListener('keydown', btn_press)
-    document.addEventListener('keydown',continue_event)
+    document.addEventListener('keydown', continue_event)
     pause = 1
 }
 function replay_game() {
@@ -271,7 +271,7 @@ function replay_game() {
     left_Time.innerHTML = "left time: 3:00"
     leftTime = 180
     document.removeEventListener('keydown', btn_press)
-    document.addEventListener("keydown",continue_event)
+    document.addEventListener("keydown", continue_event)
     pause = 1
 }
 
@@ -327,7 +327,7 @@ function rotateInBorder() {
             let yCol = currentPos.y + j
             if (xRow >= row) {
                 xShift = xRow - row
-                if (xShift === 0 && grid[currentPos.x - 1][yCol].value === 1) {                    
+                if (xShift === 0 && grid[currentPos.x - 1][yCol].value === 1) {
                     f = true
                 }
             } else if (yCol >= col) {
@@ -338,20 +338,24 @@ function rotateInBorder() {
                         yShift = 0
                     }
                 }
-            } else if (grid[xRow][yCol] && grid[xRow][yCol].value === 1) {
+            } else if (grid[xRow][yCol].value === 1) {
                 if (currentPieceIndex === 3) {
-                    if (pieceSide === 0) {                        
+                    if (pieceSide === 0) {
                         f = true
                         xShift = xRow - currentPos.x
                         if (xShift === 3) xShift = 1
                         else if (xShift === 2) xShift = 2
                         else if (xShift === 1) xShift = 3
-                        for (let i = currentPos.x; i >= 0; i--) {
-                            
-                            if ((grid[i][yCol].value === 1)) {
-                                currentPiece === objPieces[currentPieceIndex][0]
-                                xShift = 0
-                            }
+                        let c = 0
+                        for (let i = currentPos.x - 1; i >= 0; i--) {
+                            if (grid[i][yCol].value === 1) break
+                            c++
+                        }
+                        for (let j = currentPos.x; j < xRow; j++) c++
+                        c--
+                        if (c < 3) {
+                            xShift = 0
+                            f = true
                         }
                     } else if (pieceSide === 1) {
                         f = true
@@ -359,11 +363,16 @@ function rotateInBorder() {
                         if (yShift === 3) yShift = 1
                         else if (yShift === 2) yShift = 2
                         else if (yShift === 1) yShift = 3
-                        for (let i = currentPos.y; i >= 0; i--) {
-                            if ((grid[xRow][i].value === 1) || (grid[xRow][currentPos.y + 1].value === 1 && currentPos.y < 3)) {
-                                currentPiece === objPieces[currentPieceIndex][0]
-                                yShift = 0
-                            }
+                        let c = 0
+                        for (let i = currentPos.y - 1; i >= 0; i--) {
+                            if (grid[xRow][i].value === 1) break
+                            c++
+                        }
+                        for (let j = currentPos.y; j < yCol; j++) c++
+                        c--
+                        if (c < 3) {
+                            yShift = 0
+                            f = true
                         }
                     }
                 }
@@ -371,7 +380,6 @@ function rotateInBorder() {
         }
         if (f === true) break
     }
-
     currentPos.x -= xShift
     currentPos.y -= yShift
     conflictBetweenPiece()
@@ -468,7 +476,7 @@ function pausee() {
     continue_btn.style.display = "block"
     document.removeEventListener('keydown', btn_press)
     pause = 1
-    document.addEventListener('keydown',continue_event)
+    document.addEventListener('keydown', continue_event)
 }
 
 function continuee() {
@@ -477,8 +485,8 @@ function continuee() {
     continue_btn.style.display = "none"
     pause_btn.style.display = "block"
     pause = 0
-    removeEventListener("keydown",continue_event)
-    addEventListener("keydown",btn_press)
+    removeEventListener("keydown", continue_event)
+    addEventListener("keydown", btn_press)
     requestAnimationFrame(animate)
 }
 
@@ -491,7 +499,7 @@ function continue_event(e) {
 }
 
 
-function reset(){
+function reset() {
     currentPieceIndex = 0
     currentPiece = 0
     currentPos = 0
