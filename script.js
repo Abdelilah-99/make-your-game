@@ -165,6 +165,7 @@ function resume() {
     let game_over = document.getElementById('game_over')
     game_over.style.display = "none";
     dropPiece()
+    document.addEventListener('keydown',btn_press)
     pause = 0
     requestAnimationFrame(animate)
 }
@@ -243,7 +244,7 @@ function what_is_next() {
 
 function gameOver() {
     lifes = 3
-    document.getElementById("finallScore").innerHTML = "your fainall score was = " + corrent_score
+    document.getElementById("finallScore").innerHTML = "your final score was = " + corrent_score
     corrent_score = 0
     let lifeshtml = document.getElementById('Lifes')
     lifeshtml.innerHTML = "Life's: 3/3"
@@ -254,6 +255,7 @@ function gameOver() {
     let left_Time = document.getElementById('leftTime')
     left_Time.innerHTML = "left time: 3:00"
     leftTime = 180
+    document.removeEventListener('keydown',btn_press)
     pause = 1
 }
 function replay_game() {
@@ -265,6 +267,7 @@ function replay_game() {
     let left_Time = document.getElementById('leftTime')
     left_Time.innerHTML = "left time: 3:00"
     leftTime = 180
+    document.removeEventListener('keydown',btn_press)
     pause = 1
 }
 
@@ -389,7 +392,8 @@ function createGrid() {
     document.getElementById("gameGrid").innerHTML = divs
 }
 
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown',btn_press)
+function btn_press(e) {
     switch (e.key) {
         case 'ArrowLeft':
             if (isValidPos(0, -1)) {
@@ -409,7 +413,7 @@ document.addEventListener('keydown', (e) => {
             break
         case ' ':
             let x = 0
-            for (; isValidPos(1, 0) && x < 21;) {
+            for (; isValidPos(1, 0) && x < row;) {
                 mDown()
                 x++
                 
@@ -434,7 +438,7 @@ document.addEventListener('keydown', (e) => {
             continuee();
             break;
     }
-})
+}
 
 function play() {
     createGrid()
@@ -461,6 +465,7 @@ function pausee() {
     pause_btn.style.display = "none"
     let continue_btn = document.getElementById("continue")
     continue_btn.style.display = "block"
+    document.removeEventListener('keydown',btn_press)
     pause = 1
 }
 
@@ -470,5 +475,6 @@ function continuee() {
     continue_btn.style.display = "none"
     pause_btn.style.display = "block"
     pause = 0
+    document.addEventListener('keydown',btn_press)
     requestAnimationFrame(animate)
 }
