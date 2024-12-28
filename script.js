@@ -225,24 +225,26 @@ function dropPiece() {
     }
     if (!isValidPos(0, 0)) {
         what_is_next()
-        currentPieceIndex = 0
-        currentPiece = 0
-        currentPos = 0
+
     }
 }
 
 function what_is_next() {
-    if (lifes >= 1) {
+    if (lifes > 1) {
         replay_game()
     } else {
         gameOver()
     }
+    currentPieceIndex = 0
+    currentPiece = 0
+    currentPos = 0
     createGrid()
 }
 
 function gameOver() {
     lifes = 3
-    score = 0
+    document.getElementById("finallScore").innerHTML = "your fainall score was = " + corrent_score
+    corrent_score = 0
     let lifeshtml = document.getElementById('Lifes')
     lifeshtml.innerHTML = "Life's: 3/3"
     let scoree = document.getElementById("score")
@@ -254,7 +256,6 @@ function gameOver() {
     leftTime = 180
     pause = 1
 }
-
 function replay_game() {
     lifes--
     let lifeshtml = document.getElementById('Lifes')
@@ -408,9 +409,10 @@ document.addEventListener('keydown', (e) => {
             break
         case ' ':
             let x = 0
-            for (; isValidPos(1, 0);) {
+            for (; isValidPos(1, 0) && x < 21;) {
                 mDown()
                 x++
+                
             }
             score(x)
             break
@@ -424,6 +426,12 @@ document.addEventListener('keydown', (e) => {
                 rotateInBorder()
                 pieceSide = nextSide
             }
+            break;
+        case "p":
+            pausee();
+            break
+        case "c":
+            continuee();
             break;
     }
 })
