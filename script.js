@@ -165,7 +165,7 @@ function resume() {
     let game_over = document.getElementById('game_over')
     game_over.style.display = "none";
     dropPiece()
-    document.addEventListener('keydown',btn_press)
+    document.addEventListener('keydown', btn_press)
     pause = 0
     requestAnimationFrame(animate)
 }
@@ -255,7 +255,8 @@ function gameOver() {
     let left_Time = document.getElementById('leftTime')
     left_Time.innerHTML = "left time: 3:00"
     leftTime = 180
-    document.removeEventListener('keydown',btn_press)
+    document.removeEventListener('keydown', btn_press)
+    document.addEventListener('keydown',continue_event)
     pause = 1
 }
 function replay_game() {
@@ -267,7 +268,8 @@ function replay_game() {
     let left_Time = document.getElementById('leftTime')
     left_Time.innerHTML = "left time: 3:00"
     leftTime = 180
-    document.removeEventListener('keydown',btn_press)
+    document.removeEventListener('keydown', btn_press)
+    document.addEventListener("keydown",continue_event)
     pause = 1
 }
 
@@ -369,7 +371,7 @@ function createGrid() {
     document.getElementById("gameGrid").innerHTML = divs
 }
 
-document.addEventListener('keydown',btn_press)
+document.addEventListener('keydown', btn_press)
 function btn_press(e) {
     switch (e.key) {
         case 'ArrowLeft':
@@ -393,7 +395,7 @@ function btn_press(e) {
             for (; isValidPos(1, 0) && x < row;) {
                 mDown()
                 x++
-                
+
             }
             score(x)
             break
@@ -445,8 +447,9 @@ function pausee() {
     pause_btn.style.display = "none"
     let continue_btn = document.getElementById("continue")
     continue_btn.style.display = "block"
-    document.removeEventListener('keydown',btn_press)
+    document.removeEventListener('keydown', btn_press)
     pause = 1
+    document.addEventListener('keydown',continue_event)
 }
 
 function continuee() {
@@ -455,6 +458,15 @@ function continuee() {
     continue_btn.style.display = "none"
     pause_btn.style.display = "block"
     pause = 0
-    document.addEventListener('keydown',btn_press)
+    removeEventListener("keydown",continue_event)
+    addEventListener("keydown",btn_press)
     requestAnimationFrame(animate)
+}
+
+function continue_event(e) {
+    switch (e.key) {
+        case 'c':
+            continuee()
+            break
+    }
 }
