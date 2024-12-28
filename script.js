@@ -11,6 +11,7 @@ let currentPiece = null
 let lifes = 3
 let pause = 1
 let leftTime = 180
+let isSpace = false
 let currentPos = {
     x: 0,
     y: 0,
@@ -114,7 +115,8 @@ function animate(timestamp) {
     const deltaTime = timestamp - lastTime
 
     frameCount++
-    if (deltaTime >= 1000) {
+    if (deltaTime >= 1000 || isSpace) {
+        isSpace = false
         fps = frameCount
         frameCount = 0
         lastTime = timestamp
@@ -415,8 +417,8 @@ function btn_press(e) {
             let x = 0
             for (; isValidPos(1, 0) && x < row;) {
                 mDown()
+                isSpace = true
                 x++
-                
             }
             score(x)
             break
