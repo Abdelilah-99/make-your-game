@@ -243,8 +243,8 @@ function what_is_next() {
 }
 
 function gameOver() {
-    lifes = 3
     document.getElementById("finallScore").innerHTML = "your final score was = " + corrent_score
+    lifes = 3
     corrent_score = 0
     let lifeshtml = document.getElementById('Lifes')
     lifeshtml.innerHTML = "Life's: 3/3"
@@ -416,9 +416,6 @@ function btn_press(e) {
         case "p":
             pausee();
             break
-        case "c":
-            continuee();
-            break;
     }
 }
 
@@ -469,4 +466,22 @@ function continue_event(e) {
             continuee()
             break
     }
+}
+
+
+function reset(){
+    currentPieceIndex = 0
+    currentPiece = 0
+    currentPos = 0
+    createGrid();
+    lifes = 3;
+    corrent_score = 0;
+    let lifeshtml = document.getElementById('Lifes');
+    lifeshtml.innerHTML = "Life's: 3/3";
+    let scoree = document.getElementById("score");
+    scoree.innerHTML = "Score: 0";
+    let left_Time = document.getElementById('leftTime');
+    left_Time.innerHTML = "left time: 3:00";
+    leftTime = 180;
+    dropPiece()
 }
