@@ -228,7 +228,6 @@ function dropPiece() {
     }
     if (!isValidPos(0, 0)) {
         what_is_next()
-
     }
 }
 
@@ -500,9 +499,10 @@ function continue_event(e) {
 
 
 function reset() {
-    currentPieceIndex = 0
-    currentPiece = 0
-    currentPos = 0
+    isSpace = false
+    currentPiece = null
+    currentPos.x = 0
+    currentPos.y = 0
     createGrid();
     lifes = 3;
     corrent_score = 0;
