@@ -17,29 +17,29 @@ let currentPos = {
 }
 let pieceSide = 0
 let objPieces = [
-    [
-        [[1, 1],
-        [1, 1]]
-    ],
-
-    [
-        [[1, 1, 0],
-        [0, 1, 1]],
-
-        [[0, 1],
-        [1, 1],
-        [1, 0]]
-    ],
-
-    [
-        [[0, 1, 1],
-        [1, 1, 0]],
-
-        [[1, 0],
-        [1, 1],
-        [0, 1]]
-    ],
-
+        [
+            [[1, 1],
+            [1, 1]]
+        ],
+    
+        [
+            [[1, 1, 0],
+            [0, 1, 1]],
+    
+            [[0, 1],
+            [1, 1],
+            [1, 0]]
+        ],
+    
+        [
+            [[0, 1, 1],
+            [1, 1, 0]],
+    
+            [[1, 0],
+            [1, 1],
+            [0, 1]]
+        ],
+    
     [
         [[1, 1, 1, 1]],
 
@@ -319,6 +319,9 @@ function rotateInBorder() {
             let yCol = currentPos.y + j
             if (xRow >= row) {
                 xShift = xRow - row
+                if (xShift === 0 && grid[currentPos.x - 1][yCol].value === 1) {                    
+                    f = true
+                }
             } else if (yCol >= col) {
                 yShift = yCol - col
                 for (let i = 8; i > objPieces[currentPieceIndex][pieceSide].length + 1; i--) {
@@ -327,16 +330,17 @@ function rotateInBorder() {
                         yShift = 0
                     }
                 }
-            } else if (grid[xRow][yCol].value === 1) {
+            } else if (grid[xRow][yCol] && grid[xRow][yCol].value === 1) {
                 if (currentPieceIndex === 3) {
-                    if (pieceSide === 0) {
+                    if (pieceSide === 0) {                        
                         f = true
                         xShift = xRow - currentPos.x
                         if (xShift === 3) xShift = 1
                         else if (xShift === 2) xShift = 2
                         else if (xShift === 1) xShift = 3
-                        for (let i = 0; i <= 4 && xShift != 1; i++) {
-                            if (grid[currentPos.x - i][yCol].value === 1) {
+                        for (let i = currentPos.x; i >= 0; i--) {
+                            
+                            if ((grid[i][yCol].value === 1)) {
                                 currentPiece === objPieces[currentPieceIndex][0]
                                 xShift = 0
                             }
@@ -346,18 +350,18 @@ function rotateInBorder() {
                         yShift = yCol - currentPos.y
                         if (yShift === 3) yShift = 1
                         else if (yShift === 2) yShift = 2
-                        else if (yShift === 1) yShift = 3                        
-                        for (let i = currentPos.y; i > 0 ; i--) {
-                            if (grid[xRow][i].value === 1 || currentPos.y < 3) {
+                        else if (yShift === 1) yShift = 3
+                        for (let i = currentPos.y; i >= 0; i--) {
+                            if ((grid[xRow][i].value === 1) || (grid[xRow][currentPos.y + 1].value === 1 && currentPos.y < 3)) {
                                 currentPiece === objPieces[currentPieceIndex][0]
                                 yShift = 0
-                            }                            
+                            }
                         }
                     }
                 }
             }
         }
-        /* if (f === true) break */
+        if (f === true) break
     }
 
     currentPos.x -= xShift
