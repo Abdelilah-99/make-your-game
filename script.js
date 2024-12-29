@@ -108,6 +108,7 @@ let colorPiece = {
     7: "cyan"       // T
 }
 function animate(timestamp) {
+    if (pause == 0) {
     if (lastTime === 0) {
         lastTime = timestamp
     }
@@ -123,9 +124,8 @@ function animate(timestamp) {
     }
 
     drawPiece()
-    if (pause == 0) {
-        requestAnimationFrame(animate)
     }
+        requestAnimationFrame(animate)
 }
 
 let currentPieceIndex = 0
