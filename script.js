@@ -373,6 +373,7 @@ function createGrid() {
 
 addEventListener('keydown', btn_press)
 function btn_press(e) {
+    e.preventDefault();
     switch (e.key) {
         case 'ArrowLeft':
             if (isValidPos(0, -1)) {
@@ -391,6 +392,7 @@ function btn_press(e) {
             }
             break
         case ' ':
+            
             let x = 0
             for (; isValidPos(1, 0) && x < row;) {
                 mDown()
@@ -492,7 +494,9 @@ function reset(){
     let left_Time = document.getElementById('leftTime');
     left_Time.innerHTML = "left time: 3:00";
     leftTime = 180;
+    createGrid()
     dropPiece()
+    addEventListener("keydown",btn_press)
     pause = 0
     requestAnimationFrame(animate)
 }
