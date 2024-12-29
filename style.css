@@ -31,6 +31,7 @@ body {
 }
 
 #game {
+    z-index: -2;
     height: 85vh;
     gap: 10px;
     aspect-ratio: 1/2;
@@ -51,6 +52,7 @@ body {
 .grid {
     aspect-ratio: 1/1;
     border-radius: 2px;
+    z-index: 1;
 }
 
 .border {
@@ -85,7 +87,7 @@ body {
     height: 100%;
     opacity: 0.5;
     background-color: #000;
-    z-index: 90;
+    z-index: 0;
 }
 
 #backgroundMenu {
@@ -96,7 +98,7 @@ body {
     background-color: #272727;
     border: 7px solid #c4c4c4;
     border-radius: 50px;
-    z-index: 100;
+    z-index: 10;
 }
 
 #content {
@@ -139,14 +141,14 @@ body {
     animation: animatezoomin 0.6s
 }
 
+.animate-zoom-out {
+    animation: animatezoomout 0.6s
+}
 
 .none {
     display: none;
 }
 
-.animate-zoom-out {
-    animation: animatezoomout 0.6s
-}
 
 @keyframes animatezoomin {
     from {
