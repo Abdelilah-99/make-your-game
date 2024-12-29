@@ -355,6 +355,7 @@ function rotateInBorder() {
                         if (c < 3) {
                             xShift = 0
                             f = true
+                            break
                         }
                     } else if (pieceSide === 1) {
                         f = true
@@ -372,6 +373,7 @@ function rotateInBorder() {
                         if (c < 3) {
                             yShift = 0
                             f = true
+                            break
                         }
                     }
                 }
