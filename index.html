@@ -21,8 +21,6 @@
         <div id="Lifes" class="board">Life's: 3/3</div>
         <div id="leftTime" class="board">left time: 3:00</div>
         <span id="Pause" onclick="pausee()" class="green">pause</span>
-        <span id="continue" onclick="continuee()" class="green none">continue</span>
-        <span id="reset" onclick="reset()" class="green">reset</span>
     </div>
 
     <div class="popup" id="reply" onclick="resume()">
@@ -39,7 +37,9 @@
                 <img src="tetris.png" alt="">
             </div>
             <div id="play">
-                <button onclick="startGame()">Play</button>
+                <button id="stating" onclick="startGame()">Play</button>
+                <button id="continue" class="none" onclick="continuee()">continue</button>
+                <button id="reset" class="none" onclick="reset()">reset</button>
             </div>
         </div>
     </div>

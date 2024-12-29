@@ -167,7 +167,7 @@ function resume() {
     let game_over = document.getElementById('game_over')
     game_over.style.display = "none";
     dropPiece()
-    document.addEventListener('keydown', btn_press)
+    addEventListener('keydown', btn_press)
     pause = 0
     requestAnimationFrame(animate)
 }
@@ -256,8 +256,8 @@ function gameOver() {
     let left_Time = document.getElementById('leftTime')
     left_Time.innerHTML = "left time: 3:00"
     leftTime = 180
-    document.removeEventListener('keydown', btn_press)
-    document.addEventListener('keydown', continue_event)
+    removeEventListener('keydown', btn_press)
+    addEventListener('keydown',continue_event)
     pause = 1
 }
 function replay_game() {
@@ -269,8 +269,8 @@ function replay_game() {
     let left_Time = document.getElementById('leftTime')
     left_Time.innerHTML = "left time: 3:00"
     leftTime = 180
-    document.removeEventListener('keydown', btn_press)
-    document.addEventListener("keydown", continue_event)
+    removeEventListener('keydown', btn_press)
+    addEventListener("keydown",continue_event)
     pause = 1
 }
 
@@ -403,8 +403,9 @@ function createGrid() {
     document.getElementById("gameGrid").innerHTML = divs
 }
 
-document.addEventListener('keydown', btn_press)
+addEventListener('keydown', btn_press)
 function btn_press(e) {
+    e.preventDefault();
     switch (e.key) {
         case 'ArrowLeft':
             if (isValidPos(0, -1)) {
@@ -423,6 +424,7 @@ function btn_press(e) {
             }
             break
         case ' ':
+            
             let x = 0
             for (; isValidPos(1, 0) && x < row;) { // row swl yassin
                 mDown()
@@ -456,11 +458,15 @@ function play() {
 async function startGame() {
     pause = 0
     requestAnimationFrame(animate)
+
     document.getElementById('backgroundMenu').classList.remove('animate-zoom-in')
     document.getElementById('backgroundMenu').classList.add('animate-zoom-out')
     setTimeout(() => {
+        document.getElementById("stating").classList.add('none')
         document.getElementById('overlay').classList.add('none')
         document.getElementById('backgroundMenu').classList.add('none')
+        document.getElementById("continue").classList.remove("none")
+        document.getElementById("reset").classList.remove("none")
     }, 500)
 }
 
@@ -469,20 +475,21 @@ requestAnimationFrame(animate)
 
 
 function pausee() {
-    let pause_btn = document.getElementById("Pause")
-    pause_btn.style.display = "none"
-    let continue_btn = document.getElementById("continue")
-    continue_btn.style.display = "block"
-    document.removeEventListener('keydown', btn_press)
+    document.getElementById('backgroundMenu').classList.remove('animate-zoom-out')
+    document.getElementById('backgroundMenu').classList.add('animate-zoom-in')
+    document.getElementById('backgroundMenu').style.display = "block"
+    removeEventListener('keydown', btn_press)
     pause = 1
-    document.addEventListener('keydown', continue_event)
+    addEventListener('keydown',continue_event)
 }
 
 function continuee() {
+    document.getElementById('backgroundMenu').classList.remove('animate-zoom-in')
+    document.getElementById('backgroundMenu').classList.add('animate-zoom-out')
+    setTimeout(() => {
+        document.getElementById('backgroundMenu').style.display = "none"
+    }, 500)
     let pause_btn = document.getElementById("Pause")
-    let continue_btn = document.getElementById("continue")
-    continue_btn.style.display = "none"
-    pause_btn.style.display = "block"
     pause = 0
     removeEventListener("keydown", continue_event)
     addEventListener("keydown", btn_press)
@@ -498,12 +505,15 @@ function continue_event(e) {
 }
 
 
-function reset() {
-    isSpace = false
-    currentPiece = null
-    currentPos.x = 0
-    currentPos.y = 0
-    createGrid();
+function reset(){
+    document.getElementById('backgroundMenu').classList.remove('animate-zoom-in')
+    document.getElementById('backgroundMenu').classList.add('animate-zoom-out')
+    setTimeout(() => {
+        document.getElementById('backgroundMenu').style.display = "none"
+    }, 500)
+    currentPieceIndex = 0
+    currentPiece = 0
+    currentPos = 0
     lifes = 3;
     corrent_score = 0;
     let lifeshtml = document.getElementById('Lifes');
@@ -513,5 +523,9 @@ function reset() {
     let left_Time = document.getElementById('leftTime');
     left_Time.innerHTML = "left time: 3:00";
     leftTime = 180;
+    createGrid()
     dropPiece()
+    addEventListener("keydown",btn_press)
+    pause = 0
+    requestAnimationFrame(animate)
 }
