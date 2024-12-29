@@ -18,7 +18,7 @@ let currentPos = {
 }
 let pieceSide = 0
 let objPieces = [
-    /* [
+    [
         [[1, 1],
         [1, 1]]
     ],
@@ -39,7 +39,7 @@ let objPieces = [
         [[1, 0],
         [1, 1],
         [0, 1]]
-    ], */
+    ],
 
     [
         [[1, 1, 1, 1]],
@@ -50,7 +50,7 @@ let objPieces = [
         [1]]
     ],
 
-/*     [
+    [
         [[1, 1, 1],
         [1, 0, 0]],
 
@@ -96,7 +96,7 @@ let objPieces = [
         [[0, 1],
         [1, 1],
         [0, 1]]
-    ] */
+    ]
 ]
 
 let colorPiece = {
@@ -220,7 +220,7 @@ function mDown() {
 }
 
 function dropPiece() {
-    currentPieceIndex = Math.floor(Math.random() * 1)
+    currentPieceIndex = Math.floor(Math.random() * 7)
     currentPiece = objPieces[currentPieceIndex][0]
     currentPos = {
         x: 0,
@@ -298,11 +298,6 @@ function isValidPos(xMove, yMove) {
             if (currentPiece[i][j] === 0) continue
             let xRow = currentPos.x + i + xMove
             let yCol = currentPos.y + j + yMove
-            let r = xRow
-            if (xRow === 20) {
-                r = 19
-            }
-            console.log(grid[r][yCol].value);
             if (xRow < 0 || xRow >= row || yCol < 0 || yCol >= col ||
                 grid[xRow][yCol].value === 1) return false
         }
@@ -346,7 +341,7 @@ function rotateInBorder() {
                     }
                 }
             } else if (grid[xRow][yCol].value === 1) {
-                if (currentPieceIndex === 0) {
+                if (currentPieceIndex === 3) {
                     if (pieceSide === 0) {
                         console.log("true 1");
                         
