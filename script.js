@@ -424,7 +424,7 @@ function btn_press(e) {
             break
         case ' ':
             let x = 0
-            for (; isValidPos(1, 0) && x < row;) {
+            for (; isValidPos(1, 0) && x < row;) { // row swl yassin
                 mDown()
                 isSpace = true
                 x++
