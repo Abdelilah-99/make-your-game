@@ -273,6 +273,11 @@ function replay_game() {
     pause = 1
 }
 
+setInterval(() => {
+    document.getElementById("fps").style.display = "none"
+    document.getElementById("fps").style.display = "block"
+}, 10);
+
 function timehandler() {
     let left_time = document.getElementById('leftTime')
     setInterval(() => {
@@ -351,6 +356,8 @@ function rotateInBorder() {
     currentPos.y -= yShift
     conflictBetweenPiece()
 }
+
+
 
 function createGrid() {
     gameGrid.innerHTML = ''
