@@ -18,7 +18,7 @@ let currentPos = {
 }
 let pieceSide = 0
 let objPieces = [
-    [
+    /* [
         [[1, 1],
         [1, 1]]
     ],
@@ -39,7 +39,7 @@ let objPieces = [
         [[1, 0],
         [1, 1],
         [0, 1]]
-    ],
+    ], */
 
     [
         [[1, 1, 1, 1]],
@@ -50,7 +50,7 @@ let objPieces = [
         [1]]
     ],
 
-    [
+/*     [
         [[1, 1, 1],
         [1, 0, 0]],
 
@@ -96,7 +96,7 @@ let objPieces = [
         [[0, 1],
         [1, 1],
         [0, 1]]
-    ]
+    ] */
 ]
 
 let colorPiece = {
@@ -220,7 +220,7 @@ function mDown() {
 }
 
 function dropPiece() {
-    currentPieceIndex = Math.floor(Math.random() * 7)
+    currentPieceIndex = Math.floor(Math.random() * 1)
     currentPiece = objPieces[currentPieceIndex][0]
     currentPos = {
         x: 0,
@@ -292,11 +292,17 @@ function timehandler() {
 timehandler()
 
 function isValidPos(xMove, yMove) {
+    
     for (let i = 0; i < currentPiece.length; i++) {
         for (let j = 0; j < currentPiece[i].length; j++) {
             if (currentPiece[i][j] === 0) continue
             let xRow = currentPos.x + i + xMove
             let yCol = currentPos.y + j + yMove
+            let r = xRow
+            if (xRow === 20) {
+                r = 19
+            }
+            console.log(grid[r][yCol].value);
             if (xRow < 0 || xRow >= row || yCol < 0 || yCol >= col ||
                 grid[xRow][yCol].value === 1) return false
         }
@@ -307,7 +313,9 @@ function isValidPos(xMove, yMove) {
 function conflictBetweenPiece() {
     const shifts = [[0, -1], [0, 1], [-1, 0], [1, 0]]
     for (let i = 0; i < shifts.length; i++) {
+        
         if (isValidPos(shifts[i][0], shifts[i][1])) {
+            console.log(`${shifts[i][0]}, ${shifts[i][1]}, ${currentPos.x}`);
             currentPos.x += shifts[i][0]
             currentPos.y += shifts[i][1]
             return
@@ -338,13 +346,15 @@ function rotateInBorder() {
                     }
                 }
             } else if (grid[xRow][yCol].value === 1) {
-                if (currentPieceIndex === 3) {
+                if (currentPieceIndex === 0) {
                     if (pieceSide === 0) {
+                        console.log("true 1");
+                        
                         f = true
                         xShift = xRow - currentPos.x
-                        if (xShift === 3) xShift = 1
-                        else if (xShift === 2) xShift = 2
-                        else if (xShift === 1) xShift = 3
+                        if (xShift === 3) xShift = 0
+                        else if (xShift === 2) xShift = 1
+                        else if (xShift === 1) xShift = 2
                         let c = 0
                         for (let i = currentPos.x - 1; i >= 0; i--) {
                             if (grid[i][yCol].value === 1) break
@@ -357,12 +367,16 @@ function rotateInBorder() {
                             f = true
                             break
                         }
+                        break
                     } else if (pieceSide === 1) {
                         f = true
+                        console.log("true");
+                        
                         yShift = yCol - currentPos.y
-                        if (yShift === 3) yShift = 1
-                        else if (yShift === 2) yShift = 2
-                        else if (yShift === 1) yShift = 3
+                        if (yShift === 3) yShift = 0
+                        else if (yShift === 2) yShift = 1
+                        else if (yShift === 1) yShift = 2
+                        
                         let c = 0
                         for (let i = currentPos.y - 1; i >= 0; i--) {
                             if (grid[xRow][i].value === 1) break
@@ -370,17 +384,20 @@ function rotateInBorder() {
                         }
                         for (let j = currentPos.y; j < yCol; j++) c++
                         c--
-                        if (c < 3) {
+                        console.log(c);
+                        
+                        if (c < 3) {                            
                             yShift = 0
                             f = true
                             break
                         }
+                        break
                     }
                 }
             }
         }
         if (f === true) break
-    }
+    }    
     currentPos.x -= xShift
     currentPos.y -= yShift
     conflictBetweenPiece()
