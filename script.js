@@ -32,8 +32,6 @@ function updateFPS(timestamp) {
         fps = Math.round(1000 / deltaTime); 
         frameCounts = 0;
         lastFrameTime = timestamp;
-        
-        console.log(deltaTime)
         fpsDisplay.innerHTML = `FPS: ${fps}`;
     }
 
@@ -439,7 +437,6 @@ function createGrid() {
 
 addEventListener('keydown', btn_press)
 function btn_press(e) {
-    e.preventDefault();
     switch (e.key) {
         case 'ArrowLeft':
             if (isValidPos(0, -1)) {
@@ -452,13 +449,14 @@ function btn_press(e) {
             }
             break
         case 'ArrowDown':
+            e.preventDefault();
             if (isValidPos(1, 0)) {
                 currentPos.x++
                 score(1)
             }
             break
         case ' ':
-
+            e.preventDefault();
             let x = 0
             for (; isValidPos(1, 0) && x < row;) { // row swl yassin
                 mDown()
