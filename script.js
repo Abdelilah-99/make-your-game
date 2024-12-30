@@ -1,5 +1,4 @@
 const fpsCounter = document.getElementById("fps-counter")
-
 let lastTime = 0
 let frameCount = 0
 let fps = 0
@@ -16,6 +15,32 @@ let currentPos = {
     y: 0,
 }
 let pieceSide = 0
+let frameCounts = 0;;
+let lastFrameTime = 0;
+const fpsDisplay = document.getElementById("fps-counter");
+
+function updateFPS(timestamp) {
+    if (lastFrameTime == 0) {
+        lastFrameTime = timestamp;
+    }
+    
+    const deltaTime = timestamp - lastFrameTime;
+    frameCounts++;
+    
+    if (deltaTime >= 16) {
+        fps = Math.round(1000 / deltaTime); 
+        frameCounts = 0;
+        lastFrameTime = timestamp;
+        
+        console.log(deltaTime)
+        fpsDisplay.innerHTML = `FPS: ${fps}`;
+    }
+
+    requestAnimationFrame(updateFPS);
+}
+
+requestAnimationFrame(updateFPS);
+
 let objPieces = [
     [
         [[1, 1],
@@ -109,23 +134,17 @@ let colorPiece = {
 }
 function animate(timestamp) {
     if (pause == 0) {
-    if (lastTime === 0) {
-        lastTime = timestamp
+        if (lastTime === 0) {
+            lastTime = timestamp
+        }
+        const deltaTime = timestamp - lastTime
+        if (deltaTime >= 1000) {
+            lastTime = timestamp
+            mDown()
+        }
+        drawPiece()
     }
-    const deltaTime = timestamp - lastTime
-
-    frameCount++
-    if (deltaTime >= 1000) {
-        fps = frameCount
-        frameCount = 0
-        lastTime = timestamp
-        fpsCounter.textContent = `FPS: ${fps}`
-        mDown()
-    }
-
-    drawPiece()
-    }
-        requestAnimationFrame(animate)
+    requestAnimationFrame(animate)
 }
 
 let currentPieceIndex = 0
@@ -167,7 +186,6 @@ function resume() {
     dropPiece()
     addEventListener('keydown', btn_press)
     pause = 0
-    requestAnimationFrame(animate)
 }
 
 function clearLines() {
@@ -256,7 +274,7 @@ function gameOver() {
     left_Time.innerHTML = "left time: 3:00"
     leftTime = 180
     removeEventListener('keydown', btn_press)
-    addEventListener('keydown',continue_event)
+    addEventListener('keydown', continue_event)
     pause = 1
 }
 function replay_game() {
@@ -269,14 +287,9 @@ function replay_game() {
     left_Time.innerHTML = "left time: 3:00"
     leftTime = 180
     removeEventListener('keydown', btn_press)
-    addEventListener("keydown",continue_event)
+    addEventListener("keydown", continue_event)
     pause = 1
 }
-
-setInterval(() => {
-    document.getElementById("fps").style.display = "none"
-    document.getElementById("fps").style.display = "block"
-}, 10);
 
 function timehandler() {
     let left_time = document.getElementById('leftTime')
@@ -399,7 +412,7 @@ function btn_press(e) {
             }
             break
         case ' ':
-            
+
             let x = 0
             for (; isValidPos(1, 0) && x < row;) {
                 mDown()
@@ -435,7 +448,6 @@ function play() {
 
 async function startGame() {
     pause = 0
-    requestAnimationFrame(animate)
 
     document.getElementById('backgroundMenu').classList.remove('animate-zoom-in')
     document.getElementById('backgroundMenu').classList.add('animate-zoom-out')
@@ -449,8 +461,6 @@ async function startGame() {
 }
 
 play()
-requestAnimationFrame(animate)
-
 
 function pausee() {
     document.getElementById('backgroundMenu').classList.remove('animate-zoom-out')
@@ -458,7 +468,7 @@ function pausee() {
     document.getElementById('backgroundMenu').style.display = "block"
     removeEventListener('keydown', btn_press)
     pause = 1
-    addEventListener('keydown',continue_event)
+    addEventListener('keydown', continue_event)
 }
 
 function continuee() {
@@ -469,9 +479,8 @@ function continuee() {
     }, 500)
     let pause_btn = document.getElementById("Pause")
     pause = 0
-    removeEventListener("keydown",continue_event)
-    addEventListener("keydown",btn_press)
-    requestAnimationFrame(animate)
+    removeEventListener("keydown", continue_event)
+    addEventListener("keydown", btn_press)
 }
 
 function continue_event(e) {
@@ -483,7 +492,7 @@ function continue_event(e) {
 }
 
 
-function reset(){
+function reset() {
     document.getElementById('backgroundMenu').classList.remove('animate-zoom-in')
     document.getElementById('backgroundMenu').classList.add('animate-zoom-out')
     setTimeout(() => {
@@ -503,7 +512,7 @@ function reset(){
     leftTime = 180;
     createGrid()
     dropPiece()
-    addEventListener("keydown",btn_press)
+    addEventListener("keydown", btn_press)
     pause = 0
-    requestAnimationFrame(animate)
 }
+requestAnimationFrame(animate)
