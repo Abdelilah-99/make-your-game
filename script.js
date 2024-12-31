@@ -21,20 +21,13 @@ let lastFrameTime = 0;
 const fpsDisplay = document.getElementById("fps-counter");
 
 function updateFPS(timestamp) {
-    if (lastFrameTime == 0) {
-        lastFrameTime = timestamp;
-    }
-    
-    const deltaTime = timestamp - lastFrameTime;
-    frameCounts++;
-    
-    if (deltaTime >= 16) {
-        fps = Math.round(1000 / deltaTime); 
-        frameCounts = 0;
-        lastFrameTime = timestamp;
+    if (lastFrameTime > 0) {
+        const deltaTime = timestamp - lastFrameTime;
+        fps = Math.round(1000 / deltaTime);
         fpsDisplay.innerHTML = `FPS: ${fps}`;
     }
 
+    lastFrameTime = timestamp;
     requestAnimationFrame(updateFPS);
 }
 
@@ -273,7 +266,6 @@ function gameOver() {
     left_Time.innerHTML = "left time: 3:00"
     leftTime = 180
     removeEventListener('keydown', btn_press)
-    addEventListener('keydown', continue_event)
     pause = 1
 }
 function replay_game() {
@@ -286,7 +278,6 @@ function replay_game() {
     left_Time.innerHTML = "left time: 3:00"
     leftTime = 180
     removeEventListener('keydown', btn_press)
-    addEventListener("keydown", continue_event)
     pause = 1
 }
 
@@ -476,9 +467,7 @@ function btn_press(e) {
                 pieceSide = nextSide
             }
             break;
-        case "p":
-            pausee();
-            break
+        
     }
 }
 
@@ -509,7 +498,6 @@ function pausee() {
     document.getElementById('backgroundMenu').style.display = "block"
     removeEventListener('keydown', btn_press)
     pause = 1
-    addEventListener('keydown', continue_event)
 }
 
 function continuee() {
@@ -520,16 +508,7 @@ function continuee() {
     }, 500)
     let pause_btn = document.getElementById("Pause")
     pause = 0
-    removeEventListener("keydown", continue_event)
     addEventListener("keydown", btn_press)
-}
-
-function continue_event(e) {
-    switch (e.key) {
-        case 'c':
-            continuee()
-            break
-    }
 }
 
 
