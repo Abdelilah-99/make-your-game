@@ -627,7 +627,6 @@ function initializeMap(index) {
     body.style.backgroundImage = `url(${tetrisMaps[index].image})`
     createGrid()
     resetStats()
-    return config.difficulty
 }
 
 function resetStats() {
