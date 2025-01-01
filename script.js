@@ -1,4 +1,80 @@
 const fpsCounter = document.getElementById("fps-counter")
+
+const tetrisMaps = [
+    {
+        name: "Easy",
+        image: "bg.jpg",
+        config: {
+            row: 20,
+            col: 10,
+            leftTime: 180,
+            lifes: 3,
+            cellStyle: {
+                backgroundColor: "rgba(0, 0, 0, 0.85)",
+                borderColor: "rgba(34, 34, 34, 0.2)"
+            },
+            pieceColors: {
+                1: "#FF0000",  // Red
+                2: "#0000FF",  // Blue
+                3: "#00FF00",  // Green
+                4: "#FFFF00",  // Yellow
+                5: "#FFA500",  // Orange
+                6: "#800080",  // Purple
+                7: "#00FFFF"   // Cyan
+            },
+            difficulty: 1000
+        }
+    },
+    {
+        name: "Medium",
+        image: "bg1.jpg",
+        config: {
+            row: 24,
+            col: 12,
+            leftTime: 300,
+            lifes: 2,
+            cellStyle: {
+                backgroundColor: "rgba(0, 26, 51, 0.85)",
+                borderColor: "rgba(0, 26, 51, 0.2)"
+            },
+            pieceColors: {
+                1: "#DC143C",  // Crimson
+                2: "#4169E1",  // Royal Blue
+                3: "#32CD32",  // Lime Green
+                4: "#DAA520",  // Goldenrod
+                5: "#FF8C00",  // Dark Orange
+                6: "#8A2BE2",  // Blue Violet
+                7: "#48D1CC"   // Medium Turquoise
+            },
+            difficulty: 200
+        }
+    },
+    {
+        name: "Hard",
+        image: "bg2.jpg",
+        config: {
+            row: 32,
+            col: 16,
+            leftTime: 120,
+            lifes: 1,
+            cellStyle: {
+                backgroundColor: "rgba(51, 0, 0, 0.85)",
+                borderColor: "rgba(51, 0, 0, 0.2)"
+            },
+            pieceColors: {
+                1: "#FF69B4",  // Hot Pink
+                2: "#4B0082",  // Indigo
+                3: "#98FB98",  // Pale Green
+                4: "#FFD700",  // Gold
+                5: "#FF4500",  // Orange Red
+                6: "#9370DB",  // Medium Purple
+                7: "#20B2AA"   // Light Sea Green
+            },
+            difficulty: 100
+        }
+    },
+];
+
 let lastTime = 0
 let frameCount = 0
 let fps = 0
@@ -19,20 +95,6 @@ let pieceSide = 0
 let frameCounts = 0;;
 let lastFrameTime = 0;
 const fpsDisplay = document.getElementById("fps-counter");
-
-function updateFPS(timestamp) {
-    if (lastFrameTime > 0) {
-        const deltaTime = timestamp - lastFrameTime;
-        fps = Math.round(1000 / deltaTime);
-        fpsDisplay.innerHTML = `FPS: ${fps}`;
-    }
-
-    lastFrameTime = timestamp;
-    requestAnimationFrame(updateFPS);
-}
-
-requestAnimationFrame(updateFPS);
-
 let objPieces = [
     [
         [[1, 1],
@@ -114,7 +176,6 @@ let objPieces = [
         [0, 1]]
     ]
 ]
-
 let colorPiece = {
     1: "red",       // Square
     2: "blue",      // Z
@@ -124,13 +185,54 @@ let colorPiece = {
     6: "purple",    // !L
     7: "cyan"       // T
 }
+let currentPieceIndex = 0
+
+function play() {
+    createGrid()
+    dropPiece()
+}
+
+function createGrid() {
+    gameGrid.innerHTML = ''
+    for (let i = 0; i < row; i++) {
+        grid[i] = []
+        for (let j = 0; j < col; j++) {
+            grid[i][j] = {
+                value: 0,
+                color: ''
+            }
+        }
+    }
+
+    let divs = ""
+    for (let i = 0; i < row * col; i++) {
+        divs += `<div class="grid border divCell"></div>`
+    }
+    document.getElementById("gameGrid").innerHTML = divs
+}
+
+function dropPiece() {
+    currentPieceIndex = Math.floor(Math.random() * 7)
+    currentPiece = objPieces[currentPieceIndex][0]
+    currentPos = {
+        x: 0,
+        y: Math.floor(col / 2) - Math.floor(currentPiece[0].length / 2)
+    }
+    if (!isValidPos(0, 0)) {
+        what_is_next()
+    }
+}
+
 function animate(timestamp) {
+    const config = tetrisMaps[currentMapIndex].config;
     if (pause == 0) {
         if (lastTime === 0) {
             lastTime = timestamp
         }
         const deltaTime = timestamp - lastTime
-        if (deltaTime >= 1000 || isSpace) {
+        if (deltaTime >= config.difficulty || isSpace) {
+            console.log(config.difficulty);
+            
             isSpace = false
             lastTime = timestamp
             mDown()
@@ -140,7 +242,13 @@ function animate(timestamp) {
     requestAnimationFrame(animate)
 }
 
-let currentPieceIndex = 0
+function mDown() {
+    if (isValidPos(1, 0)) {
+        currentPos.x++
+    } else {
+        fixGridData()
+    }
+}
 
 function drawPiece() {
     const cells = document.querySelectorAll('.divCell')
@@ -170,6 +278,19 @@ function drawPiece() {
         }
     }
 }
+
+function updateFPS(timestamp) {
+    if (lastFrameTime > 0) {
+        const deltaTime = timestamp - lastFrameTime;
+        fps = Math.round(1000 / deltaTime);
+        fpsDisplay.innerHTML = `FPS: ${fps}`;
+    }
+
+    lastFrameTime = timestamp;
+    requestAnimationFrame(updateFPS);
+}
+
+requestAnimationFrame(updateFPS);
 
 function resume() {
     let reply = document.getElementById('reply')
@@ -220,26 +341,6 @@ function fixGridData() {
     dropPiece()
 }
 
-function mDown() {
-    if (isValidPos(1, 0)) {
-        currentPos.x++
-    } else {
-        fixGridData()
-    }
-}
-
-function dropPiece() {
-    currentPieceIndex = Math.floor(Math.random() * 7)
-    currentPiece = objPieces[currentPieceIndex][0]
-    currentPos = {
-        x: 0,
-        y: Math.floor(col / 2) - Math.floor(currentPiece[0].length / 2)
-    }
-    if (!isValidPos(0, 0)) {
-        what_is_next()
-    }
-}
-
 function what_is_next() {
     if (lifes > 1) {
         replay_game()
@@ -268,6 +369,7 @@ function gameOver() {
     removeEventListener('keydown', btn_press)
     pause = 1
 }
+
 function replay_game() {
     lifes--
     let lifeshtml = document.getElementById('Lifes')
@@ -299,7 +401,7 @@ function timehandler() {
 timehandler()
 
 function isValidPos(xMove, yMove) {
-    
+
     for (let i = 0; i < currentPiece.length; i++) {
         for (let j = 0; j < currentPiece[i].length; j++) {
             if (currentPiece[i][j] === 0) continue
@@ -315,7 +417,7 @@ function isValidPos(xMove, yMove) {
 function conflictBetweenPiece() {
     const shifts = [[0, -1], [0, 1], [-1, 0], [1, 0]]
     for (let i = 0; i < shifts.length; i++) {
-        
+
         if (isValidPos(shifts[i][0], shifts[i][1])) {
             console.log(`${shifts[i][0]}, ${shifts[i][1]}, ${currentPos.x}`);
             currentPos.x += shifts[i][0]
@@ -351,7 +453,7 @@ function rotateInBorder() {
                 if (currentPieceIndex === 3) {
                     if (pieceSide === 0) {
                         console.log("true 1");
-                        
+
                         f = true
                         xShift = xRow - currentPos.x
                         if (xShift === 3) xShift = 0
@@ -373,12 +475,12 @@ function rotateInBorder() {
                     } else if (pieceSide === 1) {
                         f = true
                         console.log("true");
-                        
+
                         yShift = yCol - currentPos.y
                         if (yShift === 3) yShift = 0
                         else if (yShift === 2) yShift = 1
                         else if (yShift === 1) yShift = 2
-                        
+
                         let c = 0
                         for (let i = currentPos.y - 1; i >= 0; i--) {
                             if (grid[xRow][i].value === 1) break
@@ -387,8 +489,8 @@ function rotateInBorder() {
                         for (let j = currentPos.y; j < yCol; j++) c++
                         c--
                         console.log(c);
-                        
-                        if (c < 3) {                            
+
+                        if (c < 3) {
                             yShift = 0
                             f = true
                             break
@@ -399,31 +501,10 @@ function rotateInBorder() {
             }
         }
         if (f === true) break
-    }    
+    }
     currentPos.x -= xShift
     currentPos.y -= yShift
     conflictBetweenPiece()
-}
-
-
-
-function createGrid() {
-    gameGrid.innerHTML = ''
-    for (let i = 0; i < row; i++) {
-        grid[i] = []
-        for (let j = 0; j < col; j++) {
-            grid[i][j] = {
-                value: 0,
-                color: ''
-            }
-        }
-    }
-
-    let divs = ""
-    for (let i = 0; i < row * col; i++) {
-        divs += `<div class="grid border divCell"></div>`
-    }
-    document.getElementById("gameGrid").innerHTML = divs
 }
 
 addEventListener('keydown', btn_press)
@@ -467,13 +548,8 @@ function btn_press(e) {
                 pieceSide = nextSide
             }
             break;
-        
-    }
-}
 
-function play() {
-    createGrid()
-    dropPiece()
+    }
 }
 
 async function startGame() {
@@ -489,8 +565,6 @@ async function startGame() {
         document.getElementById("reset").classList.remove("none")
     }, 500)
 }
-
-play()
 
 function pausee() {
     document.getElementById('backgroundMenu').classList.remove('animate-zoom-out')
@@ -510,7 +584,6 @@ function continuee() {
     pause = 0
     addEventListener("keydown", btn_press)
 }
-
 
 function reset() {
     document.getElementById('backgroundMenu').classList.remove('animate-zoom-in')
@@ -535,4 +608,56 @@ function reset() {
     addEventListener("keydown", btn_press)
     pause = 0
 }
+
+let currentMapIndex = 0
+
+function initializeMap(index) {
+    const config = tetrisMaps[index].config
+    row = config.row
+    col = config.col
+    leftTime = config.leftTime
+    lifes = config.lifes
+    colorPiece = config.pieceColors
+    const gameGrid = document.getElementById('gameGrid')
+    gameGrid.style.gridTemplateColumns = `repeat(${config.col}, 1fr)`
+    gameGrid.style.gridTemplateRows = `repeat(${config.row}, 1fr)`
+    const gameContainer = document.getElementById('game')
+    gameContainer.style.backgroundColor = config.cellStyle.backgroundColor
+    var body = document.body
+    body.style.backgroundImage = `url(${tetrisMaps[index].image})`
+    createGrid()
+    resetStats()
+    return config.difficulty
+}
+
+function resetStats() {
+    corrent_score = 0
+    document.getElementById('score').innerHTML = "Score: 0"
+    document.getElementById('Lifes').innerHTML = `Life's: ${lifes}/${lifes}`
+    document.getElementById('leftTime').innerHTML = `left time: ${Math.floor(leftTime / 60)}:${leftTime % 60}`
+}
+
+function switchMap(direction) {
+    currentMapIndex = (currentMapIndex + direction + tetrisMaps.length) % tetrisMaps.length
+    initializeMap(currentMapIndex)
+    const mapNameDisplay = document.getElementById('current-map')
+    if (mapNameDisplay) {
+        mapNameDisplay.textContent = tetrisMaps[currentMapIndex].name
+    }
+    dropPiece()
+}
+
+const mapControls = document.createElement('div')
+mapControls.className = 'board'
+mapControls.innerHTML = `
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <button onclick="switchMap(-1)" class="green">Previous Map</button>
+        <span id="current-map">${tetrisMaps[0].name}</span>
+        <button onclick="switchMap(1)" class="green">Next Map</button>
+    </div>
+`
+document.querySelector('.dashboard').appendChild(mapControls)
+
+initializeMap(0)
+play()
 requestAnimationFrame(animate)
