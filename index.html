@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Make Your Game: Tetris</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./static/style.css">
     
 </head>
 
@@ -26,15 +26,39 @@
     <div class="popup" id="reply" onclick="resume()">
         <div class="div_btn" >reply</div>
     </div>
-    <div class="popup" id="game_over" onclick="resume()">
-        <div class="div_btn game_over" >game over</div>
+    <div id="rank" class="rank">
+        <table class="tb">
+            <thead>
+                <tr class="head">
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Time</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="rows" class="record">
+               
+            </tbody>
+        </table>
+        <div class="btns">
+            <div class="div_btn game_over" id="prev" onclick="prev()">prev</div>
+            <div class="div_btn game_over" id="next" onclick="next()">next</div>
+        </div>
+        <div class="div_btn other_game" id="next" onclick="newgame()">an other game ?</div>
+    </div>
+    <div class="popup" id="game_over">
+        <span class="gameOver">game over</span>
+        <label style="display: inline;" >write your name</label>
+        <input type="text" id="playerName" class="playername" value="Player">
+        <div class="div_btn game_over" onclick="submitscore()">submit</div>
         <div class="score" id="finallScore">old value</div>
+        
     </div>
     <div id="overlay"></div>
     <div class="animate-zoom-in" id="backgroundMenu">
         <div id="content">
             <div id="logo">
-                <img src="tetris.png" alt="">
+                <img src="./static/tetris.png" alt="">
             </div>
             <div id="play">
                 <button id="stating" onclick="startGame()">Play</button>
@@ -44,7 +68,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="./static/script.js"></script>
 </body>
 
 </html>
