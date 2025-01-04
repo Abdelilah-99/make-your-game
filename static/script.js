@@ -144,6 +144,12 @@ function animate(timestamp) {
     requestAnimationFrame(animate)
 }
 
+document.addEventListener("keydown",(e)=>{
+    if (e.key == " "){
+        e.preventDefault()
+    }
+})
+
 let currentPieceIndex = 0
 
 function drawPiece() {
@@ -450,20 +456,19 @@ function btn_press(e) {
                 isSpace = true
                 x++
             }
-            score(x)
+            score(x*2)
             break
         case 'ArrowUp':
             const nextSide = (pieceSide + 1) % objPieces[currentPieceIndex].length
             original = currentPiece
             currentPiece = objPieces[currentPieceIndex][nextSide]
-            if (isValidPos(0, 0)) {
+            if (isValidPos(0, 0)) {                
                 pieceSide = nextSide
             } else {
                 rotateInBorder()
                 pieceSide = nextSide
             }
             break;
-
     }
 }
 
