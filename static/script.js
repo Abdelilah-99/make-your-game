@@ -576,7 +576,7 @@ async function submitscore() {
             rows.innerHTML += `<tr>
                     <td>${parsedres[i].rank}</td>
                     <td>${parsedres[i].name}</td>
-                    <td>${parsedres[i].time}</td>
+                    <td>${Math.floor(parsedres[i].time/60)}:${parsedres[i].time%60}</td>
                     <td>${parsedres[i].score}</td>
                 </tr>`
         }
@@ -620,7 +620,7 @@ async function next() {
             rows.innerHTML += `<tr>
                         <td>${parsedres[i].rank}</td>
                         <td>${parsedres[i].name}</td>
-                        <td>${parsedres[i].time}</td>
+                        <td>${Math.floor(parsedres[i].time/60)}:${parsedres[i].time%60}</td>
                         <td>${parsedres[i].score}</td>
                     </tr>`
         }
@@ -648,7 +648,7 @@ async function prev() {
             rows.innerHTML += `<tr>
                         <td>${parsedres[i].rank}</td>
                         <td>${parsedres[i].name}</td>
-                        <td>${parsedres[i].time}</td>
+                        <td>${Math.floor(parsedres[i].time/60)}:${parsedres[i].time%60}</td>
                         <td>${parsedres[i].score}</td>
                     </tr>`
         }
