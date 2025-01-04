@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"html/template"
 	"log"
+	"math"
 	"net/http"
+	"os"
 	"runtime"
 	"sort"
 	"strconv"
-	"math"
+	"strings"
 )
 
 type Player struct {
@@ -22,13 +24,31 @@ type Player struct {
 var Players = []Player{}
 
 func main() {
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+	http.HandleFunc("/static/", staticfiles)
 	http.HandleFunc("/", rootHandler)
 	http.HandleFunc("/api/save_score", save_score)
 	http.HandleFunc("/api/get_rank", get_rank)
 	http.HandleFunc("/api/number_pages", number_pages)
-	log.Println("Server is running on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Println("Server is running on http://localhost:8081")
+	log.Fatal(http.ListenAndServe(":8081", nil))
+}
+
+func staticfiles(w http.ResponseWriter, r *http.Request) {
+	if strings.HasPrefix(r.URL.Path, "/static/") {
+		if r.URL.Path == "/static/" || strings.HasSuffix(r.URL.Path, "/") {
+			return
+		}
+		filePath := strings.TrimPrefix(r.URL.Path, "/static/")
+
+		_, err := os.Stat("./static/"+filePath)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		http.ServeFile(w, r, filePath)
+		fmt.Println("dane")
+		return
+	}
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
@@ -79,7 +99,6 @@ func save_score(w http.ResponseWriter, r *http.Request) {
 	Players = append(Players, Player)
 	SortAndUpdateRank(Players)
 	defer r.Body.Close()
-
 }
 
 func number_pages(w http.ResponseWriter, r *http.Request) {
@@ -88,7 +107,6 @@ func number_pages(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	jsonResponse(w, http.StatusOK, math.Ceil(float64(len(Players))/5))
-
 }
 
 func get_rank(w http.ResponseWriter, r *http.Request) {
@@ -107,7 +125,6 @@ func get_rank(w http.ResponseWriter, r *http.Request) {
 	}
 	jsonResponse(w, http.StatusOK, res)
 	res = res[:0]
-
 }
 
 func jsonResponse(w http.ResponseWriter, status int, message any) {
@@ -122,10 +139,9 @@ func jsonResponse(w http.ResponseWriter, status int, message any) {
 }
 
 func printDebugInfo(err any) {
-
 	_, file, line, ok := runtime.Caller(1)
 	// the number 1 in a int parameter that idicate how man call stack i have to
-	//skip to riche the line that i want
+	// skip to riche the line that i want
 
 	// file : is the file name of the line that i want
 	// line : is the line number of the line that i want
