@@ -278,5 +278,6 @@ body {
 }
 
 .other_game{
+    max-height: 50px;
     margin: auto;
 }

@@ -9,6 +9,7 @@ import (
 	"runtime"
 	"sort"
 	"strconv"
+	"math"
 )
 
 type Player struct {
@@ -86,7 +87,7 @@ func number_pages(w http.ResponseWriter, r *http.Request) {
 		jsonResponse(w, http.StatusMethodNotAllowed, "Method not allowed")
 		return
 	}
-	jsonResponse(w, http.StatusOK, (len(Players)/5)+1)
+	jsonResponse(w, http.StatusOK, math.Ceil(float64(len(Players))/5))
 
 }
 

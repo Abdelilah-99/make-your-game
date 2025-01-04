@@ -260,7 +260,7 @@ function gameOver() {
     document.getElementById("finallScore").innerHTML = "your final score was = " + corrent_score
     let gameOver = document.getElementById('game_over')
     gameOver.style.display = "flex";
-    
+
     removeEventListener('keydown', btn_press)
     pause = 1
 }
@@ -569,10 +569,10 @@ async function submitscore() {
     rank.style.display = "flex";
     let rows = document.getElementById('rows')
     rows.innerHTML = ""
-    try{
+    try {
         let res = await fetch(`/api/get_rank?page=${page}`)
         let parsedres = await res.json()
-        for(let i = 0;i<parsedres.length;i++){
+        for (let i = 0; i < parsedres.length; i++) {
             rows.innerHTML += `<tr>
                     <td>${parsedres[i].rank}</td>
                     <td>${parsedres[i].name}</td>
@@ -580,84 +580,88 @@ async function submitscore() {
                     <td>${parsedres[i].score}</td>
                 </tr>`
         }
-    }catch(err){
+        document.getElementById('prev').style.display = "none"
+        document.getElementById('prev').style.display = "flex"
+    } catch (err) {
+        console.log("there is an error of gatting ranks")
         alert(err)
     }
     try {
         let res = await fetch(`/api/number_pages`)
         let num = await res.json()
-        if (res.status == 200){
+        if (res.status == 200) {
             numOfPages = num
         }
     } catch (err) {
         alert(err)
     }
     // addEventListener('keydown', btn_press)
-   
+
     // dropPiece()
     // pause = 0
 }
 
 
 
-async function next(){
-	if (numOfPages > page){
+async function next() {
+    if (numOfPages > page) {
         page++
-        document.getElementById('prev').style.display = "flex"
-        if (numOfPages == page){
-            document.getElementById('next').style.display = "none"
-        }
-        try{
-            let rows = document.getElementById('rows')
-            let res = await fetch(`/api/get_rank?page=${page}`)
-            let parsedres = await res.json()
-            console.log("inner html")
-            rows.innerHTML = ""
-            for(let i = 0;i<parsedres.length;i++){
-                rows.innerHTML += `<tr>
+    } else {
+        page = 1
+    }
+    try {
+        let rows = document.getElementById('rows')
+        let res = await fetch(`/api/get_rank?page=${page}`)
+        let parsedres = await res.json()
+        console.log("inner html")
+        rows.innerHTML = ""
+        console.log(parsedres);
+        for (let i = 0; i < parsedres.length; i++) {
+            rows.innerHTML += `<tr>
                         <td>${parsedres[i].rank}</td>
                         <td>${parsedres[i].name}</td>
                         <td>${parsedres[i].time}</td>
                         <td>${parsedres[i].score}</td>
                     </tr>`
-            }
-        }catch(err){
-            alert(err)
         }
+
+    } catch (err) {
+        console.log("there is an error of gatting next page")
+        alert(err)
     }
 }
 
-async function prev(){
-	if (1 <= page){
+
+async function prev() {
+    if (page != 1) {
         page--
-        document.getElementById('next').style.display = "flex"
-        if (1 == page){
-            document.getElementById('prev').style.display = "none"
-        }
-        try{
-            let rows = document.getElementById('rows')
-            let res = await fetch(`/api/get_rank?page=${page}`)
-            let parsedres = await res.json()
-            console.log("inner html")
-            rows.innerHTML = ""
-            for(let i = 0;i<parsedres.length;i++){
-                rows.innerHTML += `<tr>
+    } else {
+        page = numOfPages
+    }
+
+    try {
+        let rows = document.getElementById('rows')
+        let res = await fetch(`/api/get_rank?page=${page}`)
+        let parsedres = await res.json()
+        rows.innerHTML = ""
+        for (let i = 0; i < parsedres.length; i++) {
+            rows.innerHTML += `<tr>
                         <td>${parsedres[i].rank}</td>
                         <td>${parsedres[i].name}</td>
                         <td>${parsedres[i].time}</td>
                         <td>${parsedres[i].score}</td>
                     </tr>`
-            }
-        }catch(err){
-            alert(err)
         }
+    } catch (err) {
+        alert(err)
     }
+
 }
 
-function newgame(){
+function newgame() {
     document.getElementById("rank").style.display = "none"
     addEventListener('keydown', btn_press)
-   
+
     dropPiece()
     pause = 0
 }
