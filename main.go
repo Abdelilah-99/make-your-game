@@ -35,18 +35,15 @@ func main() {
 
 func staticfiles(w http.ResponseWriter, r *http.Request) {
 	if strings.HasPrefix(r.URL.Path, "/static/") {
-		if r.URL.Path == "/static/" || strings.HasSuffix(r.URL.Path, "/") {
+		if r.URL.Path == "/static/" {
 			return
 		}
-		filePath := strings.TrimPrefix(r.URL.Path, "/static/")
-
-		_, err := os.Stat("./static/"+filePath)
+		_, err := os.Stat("." + r.URL.Path)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		http.ServeFile(w, r, filePath)
-		fmt.Println("dane")
+		http.ServeFile(w, r, "." + r.URL.Path)
 		return
 	}
 }
